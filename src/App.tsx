@@ -1,10 +1,16 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import cardData from "./Cards.json";
 
 function App() {
 	const [count, setCount] = useState(0);
+
+	const cardOfDay = () => {
+		const index = Date.now() * 35750;
+		return cardData[index % cardData.length];
+	};
 
 	const getCard = async () => {
 		const url = "https://api.scryfall.com/cards/random";
@@ -19,14 +25,18 @@ function App() {
 			});
 			const result = await response.json();
 			console.log(result);
-		} catch (error) {
-			console.error(error.message);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error(error.message);
+			} else {
+				console.error(error);
+			}
 		}
 	};
 
-  useEffect(()=>{
-    getCard();
-  },[])
+	useEffect(() => {
+		console.log(cardOfDay());
+	}, []);
 
 	return (
 		<>
