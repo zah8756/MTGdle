@@ -4,35 +4,59 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import cardData from "./Cards.json";
 
+const cards = cardData as Card[];
+
+interface Card {
+	name: string;
+	mana_cost?: string;
+	cmc?: number;
+	type_line?: string;
+	oracle_text?: string;
+	power?: string;
+	toughness?: string;
+	colors?: string[];
+	color_identity?: string[];
+	keywords?: string[];
+	rarity?: string;
+	set?: string;
+	set_name?: string;
+	released_at?: string;
+	artist?: string;
+}
+
 function App() {
 	const [count, setCount] = useState(0);
 
-	const cardOfDay = () => {
+	
+
+	const cardOfDay = (): Card => {
 		const index = Date.now() * 35750;
-		return cardData[index % cardData.length];
+		return cards[index % cards.length];
 	};
 
-	const getCard = async () => {
-		const url = "https://api.scryfall.com/cards/random";
-		try {
-			const response = await fetch(url, {
-				method: "GET",
-				headers: {
-					"User-Agent": "MTGdle/1.0",
-					"Content-Type": "application/json",
-					accept: "*/*",
-				},
-			});
-			const result = await response.json();
-			console.log(result);
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				console.error(error.message);
-			} else {
-				console.error(error);
-			}
-		}
-	};
+
+
+	// const getCard = async () => {
+	// 	const url = "https://api.scryfall.com/cards/random";
+	// 	try {
+	// 		const response = await fetch(url, {
+	// 			method: "GET",
+	// 			headers: {
+	// 				"User-Agent": "MTGdle/1.0",
+	// 				"Content-Type": "application/json",
+	// 				accept: "*/*",
+	// 			},
+	// 		});
+	// 		const result = await response.json();
+	// 		console.log(result);
+	// 	} catch (error: unknown) {
+	// 		if (error instanceof Error) {
+	// 			console.error(error.message);
+	// 		} else {
+	// 			console.error(error);
+	// 		}
+	// 	}
+	// };
 
 	useEffect(() => {
 		console.log(cardOfDay());
