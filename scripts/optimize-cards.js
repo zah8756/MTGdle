@@ -11,28 +11,32 @@ const ESSENTIAL_FIELDS = [
 	"mana_cost",
 	"cmc",
 	"type_line",
-	"oracle_text",
 	"power",
 	"toughness",
 	"colors",
 	"color_identity",
-	"keywords",
 	"rarity",
 	"set",
 	"set_name",
 	"released_at",
-	"artist",
+	"image_uris",
 ];
 
 // MTG sets we want to skip (all the joke/Un-sets)
 const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf"];
 
 // Layouts to skip (you can expand this if needed)
-const EXCLUDED_LAYOUTS = ["token", "art_series", "planar", "scheme", "vanguard"];
+const EXCLUDED_LAYOUTS = [
+	"token",
+	"art_series",
+	"planar",
+	"scheme",
+	"vanguard",
+];
 
 function optimizeCards() {
-	console.log("Reading Cards.json...");
-	const cardsPath = path.join(__dirname, "../src/Cards.json");
+	console.log("Reading OCard.json...");
+	const cardsPath = path.join(__dirname, "../src/OCard.json");
 	const cardsData = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
 
 	console.log(`Original cards count: ${cardsData.length}`);
