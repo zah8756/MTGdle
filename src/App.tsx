@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import cardData from "./CardsMinimal.json";
 import { getCardOfTheDay } from "./utils/getCardOfDay";
+import Input from "./Components/Input";
 
 const cards = cardData as Card[];
 
@@ -24,7 +25,7 @@ interface Card {
 }
 
 function App() {
-	const [goal, setGoal] = useState<Card | null>(null);
+	const [goal, setGoal] = useState<Card>({ name: "test" });
 	const [guess, setGuess] = useState<Card[]>([]);
 	const [playing, setPlaying] = useState({ gameOver: false, gameWon: false });
 	let guessCount = 20;
@@ -64,28 +65,23 @@ function App() {
 	};
 
 	useEffect(() => {
-		console.log(cardOfDay());
 		console.log(getCard());
 		setGoal(cardOfDay());
-	}, []);
+		console.log(goal);
+	}, [goal]);
 
 	return (
 		<>
-			<div>
-				<a href='https://vite.dev' target='_blank'>
-					<img src={viteLogo} className='logo' alt='Vite logo' />
-				</a>
-				<a href='https://react.dev' target='_blank'>
-					<img src={reactLogo} className='logo react' alt='React logo' />
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className='card'>
+			<div className='flex'>
 				<p>{goal?.name}</p>
 			</div>
-			<p className='read-the-docs'>
-				Click on the Vite and React logos to learn more
-			</p>
+			<br />
+			<Input
+				onGuess={(guess) => {
+					console.log("Guess:", guess);
+					// Add your guess processing logic here
+				}}
+			/>
 		</>
 	);
 }
