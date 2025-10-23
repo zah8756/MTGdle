@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import cardData from "./CardsMinimal.json";
 import { getCardOfTheDay } from "./utils/getCardOfDay";
@@ -8,7 +6,7 @@ import Input from "./Components/Input";
 
 const cards = cardData as Card[];
 
-interface Card {
+export interface Card {
 	name: string;
 	mana_cost?: string;
 	cmc?: number;
@@ -56,6 +54,7 @@ function App() {
 			}
 		}
 	};
+
 	const win = (newGuess: Card) => {
 		if (newGuess === goal) {
 			setPlaying({ gameOver: true, gameWon: true });
@@ -81,6 +80,7 @@ function App() {
 					console.log("Guess:", guess);
 					// Add your guess processing logic here
 				}}
+				cards={cards}
 			/>
 		</>
 	);

@@ -22,8 +22,8 @@ const ESSENTIAL_FIELDS = [
 	"image_uris",
 ];
 
-// MTG sets we want to skip (all the joke/Un-sets)
-const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf"];
+// MTG sets we want to skip (all the joke/Un-sets and placeholder sets)
+const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk"];
 
 // Layouts to skip (you can expand this if needed)
 const EXCLUDED_LAYOUTS = [
@@ -47,8 +47,8 @@ function optimizeCards() {
 		if (EXCLUDED_LAYOUTS.includes(card.layout)) return false;
 		// Skip Un-sets
 		if (EXCLUDED_SETS.includes(card.set)) return false;
-		// Skip digital-only
-		if (card.digital) return false;
+		// Skip digital-only (commented out to include MTGO cards like Black Lotus)
+		// if (card.digital) return false;
 		// Skip funny promo-only things without oracle_text
 		if (!card.oracle_text && !card.type_line) return false;
 
