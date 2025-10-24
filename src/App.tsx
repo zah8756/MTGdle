@@ -26,7 +26,7 @@ function App() {
 	const [goal, setGoal] = useState<Card>({ name: "test" });
 	const [guess, setGuess] = useState<Card[]>([]);
 	const [playing, setPlaying] = useState({ gameOver: false, gameWon: false });
-	let guessCount = 20;
+	const guessCount = 20;
 
 	const cardOfDay = (): Card => {
 		const index = getCardOfTheDay() - 1; // Convert from 1-35750 to 0-35749
@@ -55,10 +55,10 @@ function App() {
 		}
 	};
 
-	const win = (newGuess: Card) => {
-		if (newGuess === goal) {
+	const checkWin = (newGuess: Card) => {
+		if (newGuess.name === goal.name) {
 			setPlaying({ gameOver: true, gameWon: true });
-		} else if (guess.length > guessCount) {
+		} else if (guess.length >= guessCount) {
 			setPlaying({ gameOver: true, gameWon: false });
 		}
 	};
@@ -76,12 +76,16 @@ function App() {
 			</div>
 			<br />
 			<Input
-				onGuess={(guess) => {
-					console.log("Guess:", guess);
-					// Add your guess processing logic here
+				onGuess={(guess: Card) => {
+					setGuess((currentGuess) => [...currentGuess, guess]);
 				}}
 				cards={cards}
 			/>
+			<ul>
+				{guess.map((guessCard) => (
+					<li key={guessCard.name}>{guessCard.name}</li>
+				))}
+			</ul>
 		</>
 	);
 }
