@@ -46,7 +46,11 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			const filterdCards = cards.filter((card) =>
 				card.name.toLowerCase().includes(newValue.toLowerCase())
 			);
-			setAutoList(filterdCards.map((card) => card));
+			const alphaFiltredCards = filterdCards.sort((a, b) =>
+				a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+			);
+			console.log(alphaFiltredCards);
+			setAutoList(alphaFiltredCards.map((card) => card));
 		} else {
 			setAutoList([]);
 		}

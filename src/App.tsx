@@ -3,6 +3,7 @@ import "./App.css";
 import cardData from "./CardsMinimal.json";
 import { getCardOfTheDay } from "./utils/getCardOfDay";
 import Input from "./Components/Input";
+import GuessTable from "./Components/GuessTable";
 
 const cards = cardData as Card[];
 
@@ -81,11 +82,7 @@ function App() {
 				}}
 				cards={cards}
 			/>
-			<ul>
-				{guess.map((guessCard) => (
-					<li key={guessCard.name}>{guessCard.name}</li>
-				))}
-			</ul>
+			<GuessTable guess={guess} goal={goal} />
 		</>
 	);
 }
