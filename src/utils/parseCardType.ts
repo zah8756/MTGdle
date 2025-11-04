@@ -58,6 +58,12 @@ const normalize = (arr: string[]) => arr.map((s) => s.toLowerCase());
 const matchDetail = (guessArr: string[], goalArr: string[]) => {
 	const g = normalize(guessArr);
 	const t = normalize(goalArr);
+
+	// If both arrays are empty, consider it an exact match (both have "none")
+	if (g.length === 0 && t.length === 0) {
+		return { partial: false, exact: true, overlapCount: 0 };
+	}
+
 	const overlap = g.filter((x) => t.includes(x));
 	const exact =
 		g.length > 0 && g.length === t.length && overlap.length === t.length;
@@ -71,9 +77,6 @@ export function compareCardTypes(
 ): {
 	guessTypes: CardTypeComponents;
 	goalTypes: CardTypeComponents;
-	supertypeMatch: boolean;
-	typeMatch: boolean;
-	subtypeMatch: boolean;
 	supertypeDetail: { partial: boolean; exact: boolean; overlapCount: number };
 	typeDetail: { partial: boolean; exact: boolean; overlapCount: number };
 	subtypeDetail: { partial: boolean; exact: boolean; overlapCount: number };
@@ -88,9 +91,6 @@ export function compareCardTypes(
 	return {
 		guessTypes: guess,
 		goalTypes: goal,
-		supertypeMatch: supertypeDetail.partial || supertypeDetail.exact,
-		typeMatch: typeDetail.partial || typeDetail.exact,
-		subtypeMatch: subtypeDetail.partial || subtypeDetail.exact,
 		supertypeDetail,
 		typeDetail,
 		subtypeDetail,

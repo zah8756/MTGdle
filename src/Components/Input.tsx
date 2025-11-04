@@ -26,6 +26,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				setInput("");
 			} else {
 				console.log("no cards match that descripon ");
+				setInvalid(true);
 			}
 		}
 	};
@@ -38,6 +39,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 
 	const handleAutoComplete = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
+		setInvalid(false);
 		setInput(newValue);
 		setGuessCard(undefined); // Clear selected card when typing
 
