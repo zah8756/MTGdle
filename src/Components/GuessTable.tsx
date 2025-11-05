@@ -25,8 +25,6 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						subtypeDetail,
 					} = compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
 
-					console.log(supertypeDetail, typeDetail);
-
 					const typeHelper = () => {
 						let classes = "py-2 border border-gray-700 ";
 						if (
@@ -71,8 +69,6 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						}
 						return classes;
 					};
-
-					console.log(guessTypes, goalTypes);
 
 					return (
 						<div

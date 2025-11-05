@@ -23,7 +23,7 @@ const ESSENTIAL_FIELDS = [
 ];
 
 // MTG sets we want to skip (all the joke/Un-sets and placeholder sets)
-const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk"];
+const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk", "fjmp"];
 
 // Layouts to skip (you can expand this if needed)
 const EXCLUDED_LAYOUTS = [
@@ -35,8 +35,8 @@ const EXCLUDED_LAYOUTS = [
 ];
 
 function optimizeCards() {
-	console.log("Reading OCard.json...");
-	const cardsPath = path.join(__dirname, "../src/OCard.json");
+	console.log("Reading default-cards-new.json...");
+	const cardsPath = path.join(__dirname, "../src/default-cards-new.json");
 	const cardsData = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
 
 	console.log(`Original cards count: ${cardsData.length}`);
@@ -65,12 +65,61 @@ function optimizeCards() {
 				optimized[field] = card[field];
 			}
 		});
+		// Keep oracle_id for deduplication if available
+		if (card.oracle_id) {
+			optimized.oracle_id = card.oracle_id;
+		}
 		return optimized;
 	});
 
+	// Group by oracle_id (or name if no oracle_id) and keep only the oldest printing
+	console.log("Deduplicating cards and selecting oldest printing...");
+	const cardMap = new Map();
+
+	optimizedCards.forEach((card) => {
+		// Use oracle_id for grouping (groups all printings of same card)
+		// Fallback to name if oracle_id doesn't exist
+		const groupKey = card.oracle_id || card.name;
+		const existing = cardMap.get(groupKey);
+
+		if (!existing) {
+			// First time seeing this card
+			cardMap.set(groupKey, card);
+		} else {
+			// Compare release dates to find the oldest printing
+			const existingDate = existing.released_at;
+			const currentDate = card.released_at;
+
+			// Parse dates for comparison (format: "YYYY-MM-DD")
+			const existingTimestamp = existingDate
+				? new Date(existingDate).getTime()
+				: Infinity;
+			const currentTimestamp = currentDate
+				? new Date(currentDate).getTime()
+				: Infinity;
+
+			// Keep the card with the earliest date (or keep existing if current has no date)
+			if (currentTimestamp < existingTimestamp) {
+				cardMap.set(groupKey, card);
+			}
+		}
+	});
+
+	// Convert map back to array and remove oracle_id (not needed in final output)
+	const uniqueCards = Array.from(cardMap.values()).map((card) => {
+		const { oracle_id, ...cardWithoutOracleId } = card;
+		return cardWithoutOracleId;
+	});
+
+	console.log(
+		`After deduplication: ${uniqueCards.length} unique cards (removed ${
+			optimizedCards.length - uniqueCards.length
+		} duplicate printings)`
+	);
+
 	// Write optimized cards
 	const optimizedPath = path.join(__dirname, "../src/CardsMinimal.json");
-	fs.writeFileSync(optimizedPath, JSON.stringify(optimizedCards, null, 0));
+	fs.writeFileSync(optimizedPath, JSON.stringify(uniqueCards, null, 0));
 
 	// Get file sizes
 	const originalSize = fs.statSync(cardsPath).size;
