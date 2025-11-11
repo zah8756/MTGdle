@@ -1,5 +1,6 @@
 import type { Card } from "../App";
 import { compareCardTypes } from "../utils/parseCardType";
+import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	return (
@@ -83,12 +84,26 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								}`}>
 								{guessCard.name}
 							</div>
-							<div
-								className={`py-2 border border-gray-700 ${
-									guessCard.cmc === goal.cmc ? "bg-green-700" : "bg-red-700"
-								}`}>
-								{guessCard.cmc}
-							</div>
+							{guessCard.cmc === goal.cmc ? (
+								<div className={"py-2 border border-gray-700 bg-green-700"}>
+									{guessCard.cmc}
+								</div>
+							) : (
+								<div
+									className={
+										"py-2 border border-gray-700 bg-red-700 flex justify-center gap-5"
+									}>
+									{guessCard?.cmc && goal?.cmc && guessCard.cmc > goal.cmc ? (
+										<>
+											{guessCard.cmc} <FaChevronDown />
+										</>
+									) : (
+										<>
+											{guessCard.cmc} <FaChevronUp />
+										</>
+									)}
+								</div>
+							)}
 							<div className={colorHelper()}>{guessCard.colors?.join()}</div>
 							<div
 								className={`py-2 border border-gray-700 ${
@@ -104,7 +119,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										? "bg-green-700"
 										: "bg-red-700"
 								}`}>
-								{guessCard.released_at}
+								{guessCard.released_at?.slice(0, 4)}
 							</div>
 							<div className={typeHelper()}>
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}

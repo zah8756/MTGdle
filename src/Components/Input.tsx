@@ -74,16 +74,23 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				onKeyDown={handleKeyPress}
 			/>
 			<button onClick={handleSubmit}>Submit</button>
-			<ul className='flex flex-col overflow-y-scroll max-h-80'>
-				{autoList.map((listElement) => (
-					<li
-						className=' hover:bg-green-300 hover:text-black cursor-pointer'
-						key={listElement.name}
-						onClick={() => handleCardSelect(listElement)}>
-						{listElement.name}
-					</li>
-				))}
-			</ul>
+			{!invalid ? (
+				<ul className='flex flex-col overflow-y-scroll max-h-80'>
+					{autoList.map((listElement) => (
+						<li
+							className=' hover:bg-green-300 hover:text-black cursor-pointer'
+							key={listElement.name}
+							onClick={() => handleCardSelect(listElement)}>
+							{listElement.name}
+						</li>
+					))}
+				</ul>
+			) : (
+				<>
+					<br />
+					<span>no cards match that descripon</span>
+				</>
+			)}
 		</div>
 	);
 };
