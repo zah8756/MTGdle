@@ -41,14 +41,14 @@ function optimizeCards() {
 
 	console.log(`Original cards count: ${cardsData.length}`);
 
-	// Filter out stuff we don’t want
+	// Filter out stuff we don't want
 	const filteredCards = cardsData.filter((card) => {
 		// Skip tokens or weird layouts
 		if (EXCLUDED_LAYOUTS.includes(card.layout)) return false;
 		// Skip Un-sets
 		if (EXCLUDED_SETS.includes(card.set)) return false;
-		// Skip digital-only (commented out to include MTGO cards like Black Lotus)
-		// if (card.digital) return false;
+		// Skip MTG Arena exclusive cards (only include cards available in paper)
+		if (card.games && !card.games.includes("paper")) return false;
 		// Skip funny promo-only things without oracle_text
 		if (!card.oracle_text && !card.type_line) return false;
 

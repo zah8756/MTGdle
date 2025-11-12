@@ -8,7 +8,7 @@ export function getCardOfTheDay() {
 	const randomValue = seededRandom(dayNumber);
 
 	// Return a random number between 1 and 35750
-	return Math.floor(randomValue * 31639) + 1;
+	return Math.floor(randomValue *  30694) + 1;
 }
 
 // helper: simple seeded RNG

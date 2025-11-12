@@ -11,20 +11,15 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 				<div className='py-3 border border-gray-700'>Mana Cost</div>
 				<div className='py-3 border border-gray-700'>Colors</div>
 				<div className='py-3 border border-gray-700'>Rarity</div>
-				<div className='py-3 border border-gray-700'>Release Date</div>
+				<div className='py-3 border border-gray-700'>Release Date/Set</div>
 				<div className='py-3 border border-gray-700'>Type/Super Type</div>
 				<div className='py-3 border border-gray-700'>Subtype</div>
 			</div>
 
 			<div className='space-y-2'>
 				{guess.map((guessCard, i) => {
-					const {
-						guessTypes,
-						goalTypes,
-						supertypeDetail,
-						typeDetail,
-						subtypeDetail,
-					} = compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
+					const { guessTypes, supertypeDetail, typeDetail, subtypeDetail } =
+						compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
 
 					const typeHelper = () => {
 						let classes = "py-2 border border-gray-700 ";
@@ -58,12 +53,15 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 
 					const colorHelper = () => {
 						let classes = "py-2 border border-gray-700 ";
-						const overlap = guessCard.colors?.filter((x) =>
-							goal.colors?.includes(x)
-						);
-						if (guessCard.colors?.length === goal.colors?.length) {
+						const guessColors = guessCard.colors ?? [];
+						const goalColors = goal.colors ?? [];
+						const overlap = guessColors.filter((x) => goalColors.includes(x));
+						const exact =
+							guessColors.length === goalColors.length &&
+							overlap.length === goalColors.length;
+						if (exact) {
 							classes += "bg-green-700";
-						} else if (overlap && overlap?.length > 0) {
+						} else if (overlap.length > 0) {
 							classes += "bg-yellow-700";
 						} else {
 							classes += "bg-red-700";
@@ -86,7 +84,8 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 							</div>
 							{guessCard.cmc === goal.cmc ? (
 								<div className={"py-2 border border-gray-700 bg-green-700"}>
-									{guessCard.cmc}
+									<i
+										className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
 								</div>
 							) : (
 								<div
@@ -95,16 +94,26 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									}>
 									{guessCard?.cmc && goal?.cmc && guessCard.cmc > goal.cmc ? (
 										<>
-											{guessCard.cmc} <FaChevronDown />
+											<i
+												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
+											<FaChevronDown />
 										</>
 									) : (
 										<>
-											{guessCard.cmc} <FaChevronUp />
+											<i
+												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
+											<FaChevronUp />
 										</>
 									)}
 								</div>
 							)}
-							<div className={colorHelper()}>{guessCard.colors?.join()}</div>
+							<div className={colorHelper()}>
+								{guessCard.colors?.map((color) => (
+									<i
+										key={color}
+										className={`ms ms-${color.toLowerCase()}  ms-cost ms-shadow`}></i>
+								))}
+							</div>
 							<div
 								className={`py-2 border border-gray-700 ${
 									guessCard.rarity === goal.rarity
@@ -119,7 +128,14 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										? "bg-green-700"
 										: "bg-red-700"
 								}`}>
-								{guessCard.released_at?.slice(0, 4)}
+								{
+									<div className='flex justify-center flex-col'>
+										<i
+											className={`ss ss-${guessCard.set} ss-${guessCard.rarity} ss-grad ss-2x`}
+											title={guessCard.set_name}></i>
+										<span>{guessCard.released_at?.slice(0, 4)}</span>
+									</div>
+								}
 							</div>
 							<div className={typeHelper()}>
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}
