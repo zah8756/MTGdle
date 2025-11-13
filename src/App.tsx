@@ -4,6 +4,7 @@ import cardData from "./CardsMinimal.json";
 import { getCardOfTheDay } from "./utils/getCardOfDay";
 import Input from "./Components/Input";
 import GuessTable from "./Components/GuessTable";
+import GameStatus from "./Components/GameStatus";
 
 const cards = cardData as Card[];
 
@@ -24,10 +25,19 @@ export interface Card {
 }
 
 function App() {
+	//state values
 	const [goal, setGoal] = useState<Card>({ name: "test" });
 	const [guess, setGuess] = useState<Card[]>([]);
-	const [playing, setPlaying] = useState({ gameOver: false, gameWon: false });
-	const guessCount = 20;
+
+	//derived values
+	const guessCount: number = 20;
+	const GuessesLeft: number = guessCount - guess.length;
+	const isGameLost: boolean = GuessesLeft <= 0 && guess.length > 0;
+	const lastGussedCard: Card | undefined = guess[guess.length - 1];
+	const gameWon: boolean = lastGussedCard?.name === goal.name;
+	const isGameOver: boolean = isGameLost || gameWon;
+	const isLastGuessIncorrect: boolean =
+		lastGussedCard !== undefined && lastGussedCard.name !== goal.name;
 
 	const cardOfDay = (): Card => {
 		const index = getCardOfTheDay() - 1; // Convert from 1-35750 to 0-35749
@@ -56,14 +66,6 @@ function App() {
 		}
 	};
 
-	const checkWin = (newGuess: Card) => {
-		if (newGuess.name === goal.name) {
-			setPlaying({ gameOver: true, gameWon: true });
-		} else if (guess.length >= guessCount) {
-			setPlaying({ gameOver: true, gameWon: false });
-		}
-	};
-
 	useEffect(() => {
 		console.log(getCard());
 		setGoal(cardOfDay());
@@ -72,6 +74,13 @@ function App() {
 
 	return (
 		<>
+			<GameStatus
+				isGameWon={gameWon}
+				isGameLost={isGameLost}
+				isGameOver={isGameOver}
+				guessCountLeft={GuessesLeft}
+				lastGuessWrong={isLastGuessIncorrect}
+			/>
 			<div className='flex'>
 				<p>{goal?.name}</p>
 			</div>
