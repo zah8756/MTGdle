@@ -95,7 +95,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									{guessCard?.cmc && goal?.cmc && guessCard.cmc > goal.cmc ? (
 										<>
 											<i
-												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
+												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow after:content-[''] after:clip-down-arrow `}></i>
 											<FaChevronDown />
 										</>
 									) : (

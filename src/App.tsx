@@ -5,6 +5,7 @@ import { getCardOfTheDay } from "./utils/getCardOfDay";
 import Input from "./Components/Input";
 import GuessTable from "./Components/GuessTable";
 import GameStatus from "./Components/GameStatus";
+import Footer from "./Components/Footer";	
 
 const cards = cardData as Card[];
 
@@ -73,26 +74,29 @@ function App() {
 	}, [goal]);
 
 	return (
-		<>
-			<GameStatus
-				isGameWon={gameWon}
-				isGameLost={isGameLost}
-				isGameOver={isGameOver}
-				guessCountLeft={GuessesLeft}
-				lastGuessWrong={isLastGuessIncorrect}
-			/>
-			<div className='flex'>
-				<p>{goal?.name}</p>
-			</div>
-			<br />
-			<Input
-				onGuess={(guess: Card) => {
-					setGuess((currentGuess) => [...currentGuess, guess]);
-				}}
-				cards={cards}
-			/>
-			<GuessTable guess={guess} goal={goal} />
-		</>
+		<div className='flex flex-col min-h-screen'>
+			<main className='flex-grow'>
+				<GameStatus
+					isGameWon={gameWon}
+					isGameLost={isGameLost}
+					isGameOver={isGameOver}
+					guessCountLeft={GuessesLeft}
+					lastGuessWrong={isLastGuessIncorrect}
+				/>
+				<div className='flex'>
+					<p>{goal?.name}</p>
+				</div>
+				<br />
+				<Input
+					onGuess={(guess: Card) => {
+						setGuess((currentGuess) => [...currentGuess, guess]);
+					}}
+					cards={cards}
+				/>
+				<GuessTable guess={guess} goal={goal} />
+			</main>
+			<Footer />
+		</div>
 	);
 }
 
