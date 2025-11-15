@@ -5,7 +5,8 @@ import { getCardOfTheDay } from "./utils/getCardOfDay";
 import Input from "./Components/Input";
 import GuessTable from "./Components/GuessTable";
 import GameStatus from "./Components/GameStatus";
-import Footer from "./Components/Footer";	
+import Footer from "./Components/Footer";
+import Header from "./Components/Header";
 
 const cards = cardData as Card[];
 
@@ -75,6 +76,7 @@ function App() {
 
 	return (
 		<div className='flex flex-col min-h-screen'>
+			<Header />
 			<main className='flex-grow'>
 				<GameStatus
 					isGameWon={gameWon}
