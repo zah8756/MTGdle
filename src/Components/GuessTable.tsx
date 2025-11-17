@@ -1,6 +1,5 @@
 import type { Card } from "../App";
 import { compareCardTypes } from "../utils/parseCardType";
-import { FaChevronUp, FaChevronDown } from "react-icons/fa";
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	return (
@@ -69,11 +68,16 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						return classes;
 					};
 
+					const capitalizeFirstLetter = (string?: string) => {
+						if (!string) return "";
+						return string.charAt(0).toUpperCase() + string.slice(1);
+					};
+
 					return (
 						<div
 							key={i}
 							className='grid grid-cols-8 text-center text-white rounded-lg overflow-hidden'>
-							<div className='bg-black py-2 border border-gray-700'>
+							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center'>
 								{i + 1}
 							</div>
 							<div
@@ -88,24 +92,19 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
 								</div>
 							) : (
-								<div
-									className={
-										"py-2 border border-gray-700 bg-red-700 flex justify-center gap-5"
-									}>
+								<>
 									{guessCard?.cmc && goal?.cmc && guessCard.cmc > goal.cmc ? (
-										<>
+										<div className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-down-arrow relative items-center ">
 											<i
-												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow after:content-[''] after:clip-down-arrow `}></i>
-											<FaChevronDown />
-										</>
+												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow relative z-10 `}></i>
+										</div>
 									) : (
-										<>
+										<div className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-up-arrow relative items-center">
 											<i
-												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
-											<FaChevronUp />
-										</>
+												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow relative z-10`}></i>
+										</div>
 									)}
-								</div>
+								</>
 							)}
 							<div className={colorHelper()}>
 								{guessCard.colors?.map((color) => (
@@ -120,7 +119,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										? "bg-green-700"
 										: "bg-red-700"
 								}`}>
-								{guessCard.rarity}
+								{capitalizeFirstLetter(guessCard?.rarity)}
 							</div>
 							<div
 								className={`py-2 border border-gray-700 ${
