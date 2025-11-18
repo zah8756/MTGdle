@@ -3,8 +3,8 @@ import { compareCardTypes } from "../utils/parseCardType";
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	return (
-		<div className='mt-5'>
-			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4'>
+		<div className='mt-5 overflow-x-auto  mx-auto'>
+			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4  sm:w-full w-[160%]'>
 				<div className='py-3 border border-gray-700'>Guess #</div>
 				<div className='py-3 border border-gray-700'>Card Name</div>
 				<div className='py-3 border border-gray-700'>Mana Cost</div>
@@ -15,23 +15,22 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 				<div className='py-3 border border-gray-700'>Subtype</div>
 			</div>
 
-			<div className='space-y-2'>
+			<div className='space-y-2 sm:w-full w-[160%]'>
 				{guess.map((guessCard, i) => {
 					const { guessTypes, supertypeDetail, typeDetail, subtypeDetail } =
 						compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
 
 					const typeHelper = () => {
 						let classes = "py-2 border border-gray-700 ";
-						if (
+
+						if (supertypeDetail.exact === true && typeDetail.exact === true) {
+							classes += "bg-green-700";
+						} else if (
+							typeDetail.exact === true ||
 							supertypeDetail.partial === true ||
 							typeDetail.partial === true
 						) {
 							classes += "bg-yellow-700";
-						} else if (
-							supertypeDetail.exact === true &&
-							typeDetail.exact === true
-						) {
-							classes += "bg-green-700";
 						} else {
 							classes += "bg-red-700";
 						}
