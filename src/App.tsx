@@ -23,7 +23,6 @@ export interface Card {
 	released_at?: string;
 }
 
-// URL to fetch cards data from (can be overridden via environment variable)
 // For local development, use local file. For production, use GitHub release.
 const CARDS_DATA_URL =
 	import.meta.env.VITE_CARDS_DATA_URL ||

@@ -1,6 +1,12 @@
 import type { Card } from "../App";
 import { compareCardTypes } from "../utils/parseCardType";
 
+const getYear = (releasedAt?: string): number => {
+	if (!releasedAt) return 0;
+	const year = parseInt(releasedAt.slice(0, 4), 10);
+	return isNaN(year) ? 0 : year;
+};
+
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	return (
 		<div className='mt-5 overflow-x-auto  mx-auto'>
@@ -120,21 +126,46 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								}`}>
 								{capitalizeFirstLetter(guessCard?.rarity)}
 							</div>
-							<div
-								className={`py-2 border border-gray-700 ${
-									guessCard.released_at === goal.released_at
-										? "bg-green-700"
-										: "bg-red-700"
-								}`}>
-								{
+
+							{guessCard.released_at === goal.released_at ? (
+								<div className={`py-2 border border-gray-700 bg-green-700`}>
 									<div className='flex justify-center flex-col'>
 										<i
 											className={`ss ss-${guessCard.set} ss-${guessCard.rarity} ss-grad ss-2x`}
 											title={guessCard.set_name}></i>
-										<span>{guessCard.released_at?.slice(0, 4)}</span>
+										<span>{getYear(guessCard.released_at) || "N/A"}</span>
 									</div>
-								}
-							</div>
+								</div>
+							) : (
+								<>
+									{getYear(guessCard.released_at) >
+									getYear(goal.released_at) ? (
+										<div
+											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-down-arrow`}>
+											<div className='flex justify-center flex-col'>
+												<i
+													className={`ss ss-${guessCard.set} ss-${guessCard.rarity}  ss-grad ss-2x z-10 relative`}
+													title={guessCard.set_name}></i>
+												<span className='z-10 relative'>
+													{getYear(guessCard.released_at) || "N/A"}
+												</span>
+											</div>
+										</div>
+									) : (
+										<div
+											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-up-arrow`}>
+											<div className='flex justify-center flex-col'>
+												<i
+													className={`ss ss-${guessCard.set} ss-${guessCard.rarity} ss-grad ss-2x z-10 relative`}
+													title={guessCard.set_name}></i>
+												<span className='z-10 relative'>
+													{getYear(guessCard.released_at) || "N/A"}
+												</span>
+											</div>
+										</div>
+									)}
+								</>
+							)}
 							<div className={typeHelper()}>
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}
 							</div>
