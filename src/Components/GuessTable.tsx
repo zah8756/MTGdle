@@ -8,9 +8,10 @@ const getYear = (releasedAt?: string): number => {
 };
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
+	console.log(goal);
 	return (
-		<div className='mt-5 overflow-x-auto  mx-auto'>
-			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4  sm:w-full w-[160%]'>
+		<div className='mt-5 overflow-x-auto mx-auto pb-10'>
+			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4 sm:w-full w-[160%]'>
 				<div className='py-3 border border-gray-700'>Guess #</div>
 				<div className='py-3 border border-gray-700'>Card Name</div>
 				<div className='py-3 border border-gray-700'>Mana Cost</div>
@@ -21,13 +22,13 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 				<div className='py-3 border border-gray-700'>Subtype</div>
 			</div>
 
-			<div className='space-y-2 sm:w-full w-[160%]'>
+			<div className='space-y-2 sm:w-full w-[160%] max-h-180 overflow-y-auto'>
 				{guess.map((guessCard, i) => {
 					const { guessTypes, supertypeDetail, typeDetail, subtypeDetail } =
 						compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
 
 					const typeHelper = () => {
-						let classes = "py-2 border border-gray-700 ";
+						let classes = "py-2 border border-gray-700 content-center  ";
 
 						if (supertypeDetail.exact === true && typeDetail.exact === true) {
 							classes += "bg-green-700";
@@ -44,7 +45,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 					};
 
 					const subHelper = () => {
-						let classes = "py-2 border border-gray-700 ";
+						let classes = "py-2 border border-gray-700  content-center ";
 						if (subtypeDetail.partial === true) {
 							classes += "bg-yellow-700";
 						} else if (subtypeDetail.exact === true) {
@@ -56,7 +57,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 					};
 
 					const colorHelper = () => {
-						let classes = "py-2 border border-gray-700 ";
+						let classes = "py-2 border border-gray-700 content-center ";
 						const guessColors = guessCard.colors ?? [];
 						const goalColors = goal.colors ?? [];
 						const overlap = guessColors.filter((x) => goalColors.includes(x));
@@ -86,7 +87,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{i + 1}
 							</div>
 							<div
-								className={`py-2 border border-gray-700 ${
+								className={`py-2 border border-gray-700  content-center ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
 								}`}>
 								{guessCard.name}
@@ -98,7 +99,9 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								</div>
 							) : (
 								<>
-									{guessCard?.cmc && goal?.cmc && guessCard.cmc > goal.cmc ? (
+									{guessCard?.cmc !== undefined &&
+									goal?.cmc !== undefined &&
+									guessCard.cmc > goal.cmc ? (
 										<div className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-down-arrow relative items-center ">
 											<i
 												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow relative z-10 `}></i>
@@ -112,14 +115,18 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								</>
 							)}
 							<div className={colorHelper()}>
-								{guessCard.colors?.map((color) => (
-									<i
-										key={color}
-										className={`ms ms-${color.toLowerCase()}  ms-cost ms-shadow`}></i>
-								))}
+								{guessCard.colors?.length ? (
+									guessCard.colors?.map((color) => (
+										<i
+											key={color}
+											className={`ms ms-${color.toLowerCase()}  ms-cost ms-shadow`}></i>
+									))
+								) : (
+									<i key={"c"} className={`ms ms-c ms-cost ms-shadow`}></i>
+								)}
 							</div>
 							<div
-								className={`py-2 border border-gray-700 ${
+								className={`py-2 border border-gray-700  content-center ${
 									guessCard.rarity === goal.rarity
 										? "bg-green-700"
 										: "bg-red-700"
