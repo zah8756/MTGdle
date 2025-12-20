@@ -69,11 +69,17 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			<input
 				type='text'
 				value={input}
-				placeholder='Type out a card'
+				placeholder='Type Card name ...'
 				onChange={handleAutoComplete}
 				onKeyDown={handleKeyPress}
+				className='bg-white text-black border-2 rounded-md text-3xl p-2'
 			/>
-			<button onClick={handleSubmit}>Submit</button>
+			<button
+				onClick={handleSubmit}
+				type='submit'
+				className='text-white ml-3 bg-black box-border border-2  delay-20 duration-300 ease-in-out hover:bg-[#383838] focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-3xl px-4 py-2.5 focus:outline-none rounded-md'>
+				Submit
+			</button>
 			{!invalid ? (
 				<ul className='flex flex-col overflow-y-scroll max-h-80'>
 					{autoList.map((listElement) => (
