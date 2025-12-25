@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactElement } from "react";
 import type { Card } from "../App";
 
 interface InputProps {
@@ -11,6 +11,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 	const [autoList, setAutoList] = useState<Card[]>([]);
 	const [guessCard, setGuessCard] = useState<Card>();
 	const [invalid, setInvalid] = useState(false);
+	const [autoListActive, setAutoListActive] = useState(-1);
 
 	const handleSubmit = () => {
 		if (guessCard) {
@@ -35,6 +36,12 @@ const Input = ({ onGuess, cards }: InputProps) => {
 		if (e.key === "Enter") {
 			handleSubmit();
 		}
+		if (e.key === "ArrowUp") {
+			setAutoListActive((prev) => (prev -= prev > 0 ? 1 : 0));
+		}
+		if (e.key === "ArrowDown") {
+			setAutoListActive((prev) => (prev += prev < autoList.length - 1 ? 1 : 0));
+		}
 	};
 
 	const handleAutoComplete = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +52,11 @@ const Input = ({ onGuess, cards }: InputProps) => {
 
 		if (newValue.length >= 3) {
 			console.log("start auto complete");
+			//filter the cards based on the card name
 			const filterdCards = cards.filter((card) =>
 				card.name.toLowerCase().includes(newValue.toLowerCase())
 			);
+			//sort the cards based on alabetic charters
 			const alphaFiltredCards = filterdCards.sort((a, b) =>
 				a.name > b.name ? 1 : b.name > a.name ? -1 : 0
 			);
