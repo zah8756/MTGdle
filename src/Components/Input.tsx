@@ -1,4 +1,4 @@
-import { useState, type ReactElement } from "react";
+import { useState,useRef, type ReactElement } from "react";
 import type { Card } from "../App";
 
 interface InputProps {
@@ -18,6 +18,9 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			onGuess(guessCard);
 			setGuessCard(undefined);
 			setInput("");
+		} else if (autoListActive >= 0) {
+			onGuess(autoList[autoListActive]);
+			setInput("");
 		} else if (input.trim()) {
 			const exactMatch = cards.find(
 				(card) => card.name.toLowerCase() === input.toLowerCase()
@@ -30,6 +33,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				setInvalid(true);
 			}
 		}
+		setAutoListActive(-1);
 	};
 
 	const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -49,6 +53,8 @@ const Input = ({ onGuess, cards }: InputProps) => {
 		setInvalid(false);
 		setInput(newValue);
 		setGuessCard(undefined); // Clear selected card when typing
+		setAutoListActive(-1);
+
 
 		if (newValue.length >= 3) {
 			console.log("start auto complete");
@@ -91,11 +97,16 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			</button>
 			{!invalid ? (
 				<ul className='flex flex-col overflow-y-scroll max-h-80'>
-					{autoList.map((listElement) => (
+					{autoList.map((listElement, index) => (
 						<li
-							className=' hover:bg-green-300 hover:text-black cursor-pointer'
+							className={
+								index === autoListActive
+									? "bg-green-300 text-black cursor-pointer"
+									: "cursor-pointer"
+							}
 							key={listElement.name}
-							onClick={() => handleCardSelect(listElement)}>
+							onClick={() => handleCardSelect(listElement)}
+							onMouseEnter={() => setAutoListActive(index)}>
 							{listElement.name}
 						</li>
 					))}
