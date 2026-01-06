@@ -93,9 +93,12 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{guessCard.name}
 							</div>
 							{guessCard.cmc === goal.cmc ? (
-								<div className={"py-2 border border-gray-700 bg-green-700"}>
+								<div
+									className={
+										"py-2 border border-gray-700 bg-green-700 flex justify-center relative items-center"
+									}>
 									<i
-										className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow`}></i>
+										className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow `}></i>
 								</div>
 							) : (
 								<>

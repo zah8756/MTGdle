@@ -1,4 +1,4 @@
-import { useState,useRef, type ReactElement } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { Card } from "../App";
 
 interface InputProps {
@@ -12,6 +12,19 @@ const Input = ({ onGuess, cards }: InputProps) => {
 	const [guessCard, setGuessCard] = useState<Card>();
 	const [invalid, setInvalid] = useState(false);
 	const [autoListActive, setAutoListActive] = useState(-1);
+	const [isKeyboardActive, setIsKeyboardActive] = useState(false);
+
+	const activeItem = useRef<HTMLLIElement | null>(null);
+
+	useEffect(() => {
+		if (isKeyboardActive) {
+			activeItem.current?.scrollIntoView({
+				behavior: "auto",
+				block: "center",
+				inline: "nearest",
+			});
+		}
+	}, [autoListActive, isKeyboardActive]);
 
 	const handleSubmit = () => {
 		if (guessCard) {
@@ -33,6 +46,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				setInvalid(true);
 			}
 		}
+		setAutoList([]);
 		setAutoListActive(-1);
 	};
 
@@ -41,9 +55,11 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			handleSubmit();
 		}
 		if (e.key === "ArrowUp") {
+			setIsKeyboardActive(true);
 			setAutoListActive((prev) => (prev -= prev > 0 ? 1 : 0));
 		}
 		if (e.key === "ArrowDown") {
+			setIsKeyboardActive(true);
 			setAutoListActive((prev) => (prev += prev < autoList.length - 1 ? 1 : 0));
 		}
 	};
@@ -54,7 +70,6 @@ const Input = ({ onGuess, cards }: InputProps) => {
 		setInput(newValue);
 		setGuessCard(undefined); // Clear selected card when typing
 		setAutoListActive(-1);
-
 
 		if (newValue.length >= 3) {
 			console.log("start auto complete");
@@ -104,9 +119,13 @@ const Input = ({ onGuess, cards }: InputProps) => {
 									? "bg-green-300 text-black cursor-pointer"
 									: "cursor-pointer"
 							}
+							ref={index === autoListActive ? activeItem : null}
 							key={listElement.name}
 							onClick={() => handleCardSelect(listElement)}
-							onMouseEnter={() => setAutoListActive(index)}>
+							onMouseEnter={() => {
+								setAutoListActive(index);
+								setIsKeyboardActive(false);
+							}}>
 							{listElement.name}
 						</li>
 					))}
