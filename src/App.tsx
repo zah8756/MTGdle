@@ -89,7 +89,7 @@ function App() {
 
 	if (isLoading) {
 		return (
-			<div className='flex flex-col min-h-screen items-center justify-center'>
+			<div className='flex flex-col min-h-screen'>
 				<Header />
 				<main className='flex-grow flex items-center justify-center'>
 					<p>Loading cards...</p>
@@ -101,7 +101,7 @@ function App() {
 
 	if (error) {
 		return (
-			<div className='flex flex-col min-h-screen items-center justify-center'>
+			<div className='flex flex-col min-h-screen'>
 				<Header />
 				<main className='flex-grow flex flex-col items-center justify-center gap-4'>
 					<p className='text-red-500'>Error loading cards data</p>
@@ -118,25 +118,27 @@ function App() {
 	return (
 		<div className='flex flex-col min-h-screen'>
 			<Header />
-			<main className='flex-grow'>
-				<GameStatus
-					isGameWon={gameWon}
-					isGameLost={isGameLost}
-					isGameOver={isGameOver}
-					guessCountLeft={GuessesLeft}
-					lastGuessWrong={isLastGuessIncorrect}
-				/>
-				<div className='flex'>
-					<p>{goal?.name}</p>
+			<main className='flex-grow flex flex-col items-center'>
+				<div className='w-full max-w-6xl px-4'>
+					<GameStatus
+						isGameWon={gameWon}
+						isGameLost={isGameLost}
+						isGameOver={isGameOver}
+						guessCountLeft={GuessesLeft}
+						lastGuessWrong={isLastGuessIncorrect}
+					/>
+					<div className='flex'>
+						<p>{goal?.name}</p>
+					</div>
+					<br />
+					<Input
+						onGuess={(guess: Card) => {
+							setGuess((currentGuess) => [...currentGuess, guess]);
+						}}
+						cards={cards}
+					/>
+					<GuessTable guess={guess} goal={goal} />
 				</div>
-				<br />
-				<Input
-					onGuess={(guess: Card) => {
-						setGuess((currentGuess) => [...currentGuess, guess]);
-					}}
-					cards={cards}
-				/>
-				<GuessTable guess={guess} goal={goal} />
 			</main>
 			<Footer />
 		</div>

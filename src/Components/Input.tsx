@@ -95,14 +95,14 @@ const Input = ({ onGuess, cards }: InputProps) => {
 	};
 
 	return (
-		<div>
+		<div className="relative">
 			<input
 				type='text'
 				value={input}
 				placeholder='Type Card name ...'
 				onChange={handleAutoComplete}
 				onKeyDown={handleKeyPress}
-				className='bg-white text-black border-2 rounded-md text-3xl p-2'
+				className='bg-white text-black border-2 rounded-md text-1xl p-1 sm:text-3xl sm:p-2'
 			/>
 			<button
 				onClick={handleSubmit}
@@ -111,7 +111,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				Submit
 			</button>
 			{!invalid ? (
-				<ul className='flex flex-col overflow-y-scroll max-h-80'>
+				<ul className='flex flex-col overflow-y-scroll max-h-80 absolute min-w-[20rem] z-30 top-16 bg-black left-1/2 -translate-x-1/2'>
 					{autoList.map((listElement, index) => (
 						<li
 							className={

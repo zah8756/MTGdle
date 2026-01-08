@@ -1,6 +1,6 @@
 const Footer = () => {
 	return (
-		<footer className='text-center text-gray-400 text-sm border-t border-gray-700 py-6 bg-neutral-900 z-10 max-w-7xl '>
+		<footer className='text-center text-gray-400 text-sm border-t border-gray-700 py-6 bg-neutral-900 z-10 w-full max-w-6xl mx-auto px-4'>
 			<p className='mb-2'>
 				This site is a non-commercial fan project and is not affiliated with or
 				endorsed by Wizards of the Coast.
