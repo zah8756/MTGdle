@@ -111,7 +111,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				Submit
 			</button>
 			{!invalid ? (
-				<ul className='flex flex-col overflow-y-scroll max-h-80 absolute min-w-[20rem] z-30 top-16 bg-black left-1/2 -translate-x-1/2'>
+				<ul className='flex flex-col overflow-y-scroll max-h-80 absolute min-w-[20rem] z-20 top-16 bg-black left-1/2 -translate-x-1/2'>
 					{autoList.map((listElement, index) => (
 						<li
 							className={

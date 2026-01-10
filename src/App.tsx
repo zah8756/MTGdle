@@ -37,7 +37,7 @@ function App() {
 	const [guess, setGuess] = useState<Card[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-
+	
 	//derived values
 	const guessCount: number = 20;
 	const GuessesLeft: number = guessCount - guess.length;
