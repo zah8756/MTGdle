@@ -8,6 +8,7 @@ const Modal = ({
 	onClose: () => void;
 }) => {
 	const focusList = useRef<HTMLLIElement | null>(null);
+	const [comp,setComp] = useState(null);
 
 	useEffect(() => {
 		focusList.current?.focus();
@@ -27,11 +28,8 @@ const Modal = ({
 					or endorsed by Wizards of the Coast.
 				</p>
 				<p className='mb-2 italic'>
-					<span className='font-semibold '>
-						Magic: The Gathering
-					</span>{" "}
-					and all related logos, symbols, and card names are © Wizards of the
-					Coast LLC.
+					<span className='font-semibold '>Magic: The Gathering</span> and all
+					related logos, symbols, and card names are © Wizards of the Coast LLC.
 				</p>
 				<p className='mb-2'>
 					Card artwork © Wizards of the Coast. Featured artwork:{" "}
