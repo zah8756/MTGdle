@@ -7,7 +7,7 @@ const Modal = ({
 	isModalOpen: boolean;
 	onClose: () => void;
 }) => {
-	const focusList = useRef<HTMLLIElement | null>(null);
+	const focusList = useRef<HTMLDivElement | null>(null);
 	
 
 	useEffect(() => {
