@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 
 const Modal = ({
 	isModalOpen,
@@ -8,7 +8,7 @@ const Modal = ({
 	onClose: () => void;
 }) => {
 	const focusList = useRef<HTMLLIElement | null>(null);
-	const [comp,setComp] = useState(null);
+	
 
 	useEffect(() => {
 		focusList.current?.focus();
