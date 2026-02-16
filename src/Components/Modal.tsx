@@ -1,54 +1,57 @@
 import { useRef, useEffect } from "react";
 
+//might want to try children prop to handle the innter text not sure however because of the usabilty concersns
+//also try the dialog element
 const Modal = ({
 	isModalOpen,
 	onClose,
+	children,
 }: {
 	isModalOpen: boolean;
 	onClose: () => void;
+	children: React.ReactNode;
 }) => {
-	const focusList = useRef<HTMLDivElement | null>(null);
-	
+	const modalRef = useRef<HTMLDialogElement>(null);
 
 	useEffect(() => {
-		focusList.current?.focus();
+		if (modalRef.current) {
+			if (isModalOpen) {
+				modalRef.current.showModal();
+			} else {
+				modalRef.current.close();
+			}
+		}
 	}, [isModalOpen]);
 
 	return (
-		<div className='fixed left-0 top-0 bg-black/50 w-screen h-screen flex justify-center items-center z-30'>
-			<div
-				ref={focusList}
-				className='bg-white rounded shadow-md p-8 w-[20%] opacity-100 flex flex-col text-black'
-				role='dialog'
-				aria-label='fan-content-policy'
-				tabIndex={-1}>
-				<button onClick={() => onClose()}>&times;</button>
-				<p className='mb-2'>
-					This site is a non-commercial fan project and is not affiliated with
-					or endorsed by Wizards of the Coast.
-				</p>
-				<p className='mb-2 italic'>
-					<span className='font-semibold '>Magic: The Gathering</span> and all
-					related logos, symbols, and card names are © Wizards of the Coast LLC.
-				</p>
-				<p className='mb-2'>
-					Card artwork © Wizards of the Coast. Featured artwork:{" "}
-					<span className=''>"Black Lotus"</span> by{" "}
-					<span className=''>Chris Rahn</span>.
-				</p>
-				<p>
-					Used under Wizards of the Coast’s{" "}
-					<a
-						href='https://company.wizards.com/en/legal/fancontentpolicy'
-						target='_blank'
-						rel='noopener noreferrer'
-						className='text-red-500 hover:text-red-400 underline'>
-						Fan Content Policy
-					</a>
-					.
-				</p>
-			</div>
-		</div>
+		<dialog
+		ref={modalRef}
+		className='bg-white rounded shadow-md p-8 w-[75%] max-w-[600px] opacity-100 flex flex-col text-black m-auto z-30 inset-0 backdrop:bg-black/50 relative'
+		role='dialog'
+		aria-label='Dialog-modal'
+		tabIndex={-1}>
+		<button
+		//get rid of focus on close 
+			onClick={() => onClose()}
+			className='absolute top-2 right-2 flex justify-center items-center w-10 h-10 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400'
+			type='button'
+			aria-label='Close modal'>
+			<svg
+				xmlns='http://www.w3.org/2000/svg'
+				className='h-6 w-6'
+				fill='none'
+				viewBox='0 0 24 24'
+				stroke='currentColor'
+				strokeWidth={2}>
+				<path
+					strokeLinecap='round'
+					strokeLinejoin='round'
+					d='M6 18L18 6M6 6l12 12'
+				/>
+			</svg>
+		</button>
+		{children}
+	</dialog>
 	);
 };
 

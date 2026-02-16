@@ -82,12 +82,12 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 					return (
 						<div
 							key={i}
-							className='grid grid-cols-8 text-center text-white rounded-lg overflow-hidden'>
+							className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
 							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold'>
 								{i + 1}
 							</div>
 							<div
-								className={`py-2 border border-gray-700 content-center truncate px-2 ${
+								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2  ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
 								}`}
 								aria-label={
@@ -133,7 +133,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									const guessColors = guessCard.colors ?? [];
 									const goalColors = goal.colors ?? [];
 									const overlap = guessColors.filter((x) =>
-										goalColors.includes(x)
+										goalColors.includes(x),
 									);
 									const exact =
 										guessColors.length === goalColors.length &&
@@ -167,8 +167,8 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									guessCard.rarity === goal.rarity
 										? "Rarity correct"
 										: `Rarity incorrect: guessed ${capitalizeFirstLetter(
-												guessCard?.rarity
-										  )}`
+												guessCard?.rarity,
+											)}`
 								}>
 								{capitalizeFirstLetter(guessCard?.rarity)}
 							</div>
@@ -192,7 +192,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										<div
 											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-down-arrow`}
 											aria-label={`Release date incorrect: ${getYear(
-												guessCard.released_at
+												guessCard.released_at,
 											)} is too recent, should be earlier`}>
 											<div className='flex justify-center flex-col'>
 												<i
@@ -208,7 +208,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										<div
 											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-up-arrow`}
 											aria-label={`Release date incorrect: ${getYear(
-												guessCard.released_at
+												guessCard.released_at,
 											)} is too old, should be more recent`}>
 											<div className='flex justify-center flex-col'>
 												<i
