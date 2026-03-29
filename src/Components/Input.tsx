@@ -107,7 +107,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			<button
 				onClick={handleSubmit}
 				type='submit'
-				className='text-white ml-3 bg-black box-border border-2  delay-20 duration-300 ease-in-out hover:bg-[#383838] focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-3xl px-4 py-2.5 focus:outline-none rounded-md'>
+				className='text-white ml-3 bg-black box-border border-2 cursor-pointer delay-20 duration-300 ease-in-out hover:bg-[#383838] focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-3xl px-4 py-2.5 focus:outline-none rounded-md'>
 				Submit
 			</button>
 			{!invalid ? (

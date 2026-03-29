@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "update-cards": "node scripts/update-cards.js",
+    "optimize-cards": "node scripts/optimize-cards.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",

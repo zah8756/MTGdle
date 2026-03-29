@@ -17,6 +17,7 @@ const Modal = ({
 		if (modalRef.current) {
 			if (isModalOpen) {
 				modalRef.current.showModal();
+				modalRef.current.focus();
 			} else {
 				modalRef.current.close();
 			}

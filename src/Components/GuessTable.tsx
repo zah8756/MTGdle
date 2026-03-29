@@ -22,7 +22,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 				<div className='py-3 border border-gray-700'>Subtype</div>
 			</div>
 
-			<div className='space-y-2 min-w-[800px] max-h-180 overflow-y-auto'>
+			<div className='space-y-2 min-w-[800px] max-h-160 overflow-y-auto'>
 				{guess.map((guessCard, i) => {
 					const { guessTypes, supertypeDetail, typeDetail, subtypeDetail } =
 						compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
