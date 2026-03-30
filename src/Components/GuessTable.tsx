@@ -30,7 +30,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						compareCardTypes(guessCard.type_line ?? "", goal.type_line ?? "");
 
 					const typeHelper = () => {
-						let classes = "py-2 border border-gray-700 content-center  ";
+						let classes = "py-2 border border-gray-700 content-center px-2  ";
 
 						if (supertypeDetail.exact === true && typeDetail.exact === true) {
 							classes += "bg-green-700";
@@ -89,7 +89,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{i + 1}
 							</div>
 							<div
-								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2  ${
+								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2 ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
 								}`}
 								aria-label={
