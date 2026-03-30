@@ -9,25 +9,86 @@ const Header = () => {
 
 	return (
 		<header className='w-full max-w-6xl mx-auto px-4 flex  justify-center flex-col gap-4'>
-			<h1 className='font-bold text-8xl'>MTGdle</h1>
-			<div className='flex justify-center gap-4'>
-				<button onClick={() => setIsAboutModalOpen(true)}>About</button>
-				<button onClick={() => setIsRulesModalOpen(true)}>How to play</button>
-				<button onClick={() => setIsCreditsModalOpen(true)}>Credits</button>
-				<button onClick={() => setIsSettingsModalOpen(true)}>Settings</button>
+			<h1 className='font-bold text-6xl tracking-wide title-shadow sm:text-8xl'>
+				MTGdle
+			</h1>
+			<div className='flex justify-center gap-1.5 sm:gap-2'>
+				<button
+					onClick={() => setIsAboutModalOpen(true)}
+					className='px-2.5 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-md border border-gray-600 text-gray-300 hover:bg-white/10 hover:text-white hover:border-gray-400 transition-all duration-200'>
+					About
+				</button>
+				<button
+					onClick={() => setIsRulesModalOpen(true)}
+					className='px-2.5 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-md border border-gray-600 text-gray-300 hover:bg-white/10 hover:text-white hover:border-gray-400 transition-all duration-200'>
+					How to play
+				</button>
+				<button
+					onClick={() => setIsCreditsModalOpen(true)}
+					className='px-2.5 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-md border border-gray-600 text-gray-300 hover:bg-white/10 hover:text-white hover:border-gray-400 transition-all duration-200'>
+					Credits
+				</button>
+				<button
+					onClick={() => setIsSettingsModalOpen(true)}
+					className='px-2.5 py-1 text-xs sm:px-4 sm:py-1.5 sm:text-sm rounded-md border border-gray-600 text-gray-300 hover:bg-white/10 hover:text-white hover:border-gray-400 transition-all duration-200'>
+					Settings
+				</button>
 			</div>
 			{isAboutModalOpen && (
 				<Modal
 					isModalOpen={isAboutModalOpen}
 					onClose={() => setIsAboutModalOpen(false)}>
-					<h2 className='text-2xl font-bold'>About</h2>
+					<div className='flex flex-col gap-2'>
+						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
+							About
+						</h2>
+						<p className='mb-2'>
+							MTGdle is a wordle-style game for Magic: The Gathering cards.
+						</p>
+						<p className='mb-2'>
+							Every day, a new card is chosen from nearly every card in magic's
+							history and you have to guess it in 20 guesses.
+						</p>
+						<p className='mb-2'>
+							You can use the keyboard to navigate the input field.
+						</p>
+						<p className='mb-2'>
+							Greatly inspired by{"  "}
+							<a
+								href='https://loldle.net/'
+								target='_blank'
+								rel='noopener noreferrer'>
+								loldle
+							</a>{" "}
+							and{" "}
+							<a
+								href='https://commandercodex.com/?from=loldle.net_with_love'
+								target='_blank'
+								rel='noopener noreferrer'>
+								commandercodex
+							</a>{" "}
+						</p>
+					</div>
+
+					<div className='flex flex-col gap-2'>
+						{" "}
+						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
+							Feedback
+						</h2>
+						<p className='mb-2'>
+							Have feedback or suggestions? Please contact me at{" "}
+							<a href='mailto:zah8756@gmail.com'>zah8756@gmail.com</a>.
+						</p>
+					</div>
 				</Modal>
 			)}
 			{isRulesModalOpen && (
 				<Modal
 					isModalOpen={isRulesModalOpen}
 					onClose={() => setIsRulesModalOpen(false)}>
-					<h2 className='text-2xl font-bold'>How to play</h2>
+					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
+						How to play
+					</h2>
 					<p className='mb-2'>
 						MTGdle is a wordle-style game for Magic: The Gathering cards.
 					</p>
@@ -52,7 +113,9 @@ const Header = () => {
 				<Modal
 					isModalOpen={isCreditsModalOpen}
 					onClose={() => setIsCreditsModalOpen(false)}>
-					<h2 className='text-2xl font-bold'>About</h2>
+					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
+						Credits
+					</h2>
 					<p className='mb-2'>
 						This site is a non-commercial fan project and is not affiliated with
 						or endorsed by Wizards of the Coast.

@@ -28,7 +28,7 @@ const GameStatus = ({
 	if (isGameLost) {
 		return (
 			<section className='text-center p-4'>
-				<p className='text-red-500 text-xl font-bold'>
+				<p className='text-red-500 text-lg font-bold tracking-wide'>
 					Game Over! You ran out of guesses.
 				</p>
 			</section>
@@ -45,9 +45,13 @@ const GameStatus = ({
 
 	return (
 		<section className='text-center p-4'>
-			<p className='text-gray-600'>Guesses remaining: {guessCountLeft}</p>
+			<p className=' text-lg font-bold text-gray-200 tracking-wide '>
+				Guesses remaining: {guessCountLeft}
+			</p>
 			{lastGuessWrong && (
-				<p className='text-red-500 text-sm mt-2'>Last guess was incorrect</p>
+				<p className='text-red-500 text-lg mt-2 tracking-wide font-bold '>
+					Last guess was incorrect
+				</p>
 			)}
 		</section>
 	);

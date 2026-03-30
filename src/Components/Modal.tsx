@@ -27,7 +27,7 @@ const Modal = ({
 	return (
 		<dialog
 		ref={modalRef}
-		className='bg-white rounded shadow-md p-8 w-[75%] max-w-[600px] opacity-100 flex flex-col text-black m-auto z-30 inset-0 backdrop:bg-black/50 relative'
+		className='bg-white rounded shadow-md p-8 w-[75%] max-w-[600px] opacity-100 flex flex-col text-black m-auto z-30 inset-0 backdrop:bg-black/50 relative gap-4 text-start'
 		role='dialog'
 		aria-label='Dialog-modal'
 		tabIndex={-1}>

@@ -36,7 +36,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			setInput("");
 		} else if (input.trim()) {
 			const exactMatch = cards.find(
-				(card) => card.name.toLowerCase() === input.toLowerCase()
+				(card) => card.name.toLowerCase() === input.toLowerCase(),
 			);
 			if (exactMatch) {
 				onGuess(exactMatch);
@@ -75,11 +75,11 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			console.log("start auto complete");
 			//filter the cards based on the card name
 			const filterdCards = cards.filter((card) =>
-				card.name.toLowerCase().includes(newValue.toLowerCase())
+				card.name.toLowerCase().includes(newValue.toLowerCase()),
 			);
 			//sort the cards based on alabetic charters
 			const alphaFiltredCards = filterdCards.sort((a, b) =>
-				a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+				a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
 			);
 			console.log(alphaFiltredCards);
 			setAutoList(alphaFiltredCards.map((card) => card));
@@ -95,47 +95,52 @@ const Input = ({ onGuess, cards }: InputProps) => {
 	};
 
 	return (
-		<div className="relative">
-			<input
-				type='text'
-				value={input}
-				placeholder='Type Card name ...'
-				onChange={handleAutoComplete}
-				onKeyDown={handleKeyPress}
-				className='bg-white text-black border-2 rounded-md text-1xl p-1 sm:text-3xl sm:p-2'
-			/>
+		<div className='w-full max-w-6xl mx-auto px-4 flex items-center justify-center gap-4 md:flex-row flex-col'>
+			{/* Input wrapped in relative so dropdown positions from it */}
+			<div className='relative'>
+				<input
+					type='text'
+					value={input}
+					placeholder='Type card name...'
+					onChange={handleAutoComplete}
+					onKeyDown={handleKeyPress}
+					className={`bg-white text-black border-2 rounded-md p-1 sm:p-2 text-xl sm:text-3xl w-72 sm:w-96 transition-colors ${
+						invalid ? "border-red-500" : "border-gray-300"
+					}`}
+				/>
+				{invalid && (
+					<p className='absolute left-0 top-full mt-1 text-red-400 text-xs'>
+						No cards match that name.
+					</p>
+				)}
+				{autoList.length > 0 && (
+					<ul className='absolute top-full left-0 w-full mt-1 flex flex-col overflow-y-auto max-h-72 z-20 bg-neutral-900 border border-gray-700 rounded-md shadow-xl'>
+						{autoList.map((listElement, index) => (
+							<li
+								className={`px-3 py-2 text-sm cursor-pointer transition-colors ${
+									index === autoListActive
+										? "bg-green-700 text-white"
+										: "text-gray-200 hover:bg-white/10"
+								}`}
+								ref={index === autoListActive ? activeItem : null}
+								key={listElement.name}
+								onClick={() => handleCardSelect(listElement)}
+								onMouseEnter={() => {
+									setAutoListActive(index);
+									setIsKeyboardActive(false);
+								}}>
+								{listElement.name}
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 			<button
 				onClick={handleSubmit}
 				type='submit'
-				className='text-white ml-3 bg-black box-border border-2 cursor-pointer delay-20 duration-300 ease-in-out hover:bg-[#383838] focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-3xl px-4 py-2.5 focus:outline-none rounded-md'>
+				className='text-white bg-black border-2 border-gray-600 cursor-pointer duration-200 ease-in-out hover:bg-neutral-800 hover:border-gray-400 font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500'>
 				Submit
 			</button>
-			{!invalid ? (
-				<ul className='flex flex-col overflow-y-scroll max-h-80 absolute min-w-[20rem] z-20 top-16 bg-black left-1/2 -translate-x-1/2'>
-					{autoList.map((listElement, index) => (
-						<li
-							className={
-								index === autoListActive
-									? "bg-green-300 text-black cursor-pointer"
-									: "cursor-pointer"
-							}
-							ref={index === autoListActive ? activeItem : null}
-							key={listElement.name}
-							onClick={() => handleCardSelect(listElement)}
-							onMouseEnter={() => {
-								setAutoListActive(index);
-								setIsKeyboardActive(false);
-							}}>
-							{listElement.name}
-						</li>
-					))}
-				</ul>
-			) : (
-				<>
-					<br />
-					<span>no cards match that descripon</span>
-				</>
-			)}
 		</div>
 	);
 };

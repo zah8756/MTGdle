@@ -28,6 +28,8 @@ const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk", "fjmp"];
 // Layouts to skip (you can expand this if needed)
 const EXCLUDED_LAYOUTS = [
 	"token",
+	"double_faced_token",
+	"emblem",
 	"art_series",
 	"planar",
 	"scheme",
@@ -44,7 +46,7 @@ function optimizeCards() {
 	// Filter out stuff we don't want
 	const filteredCards = cardsData.filter((card) => {
 		// Skip tokens or weird layouts
-		if (EXCLUDED_LAYOUTS.includes(card.layout)) return false;
+		if (EXCLUDED_LAYOUTS.includes(card.layout?.toLowerCase())) return false;
 		// Skip Un-sets
 		if (EXCLUDED_SETS.includes(card.set)) return false;
 		// Skip MTG Arena exclusive cards (only include cards available in paper)
@@ -114,7 +116,7 @@ function optimizeCards() {
 	console.log(
 		`After deduplication: ${uniqueCards.length} unique cards (removed ${
 			optimizedCards.length - uniqueCards.length
-		} duplicate printings)`
+		} duplicate printings)`,
 	);
 
 	// Write optimized cards
@@ -126,18 +128,18 @@ function optimizeCards() {
 	const optimizedSize = fs.statSync(optimizedPath).size;
 
 	console.log(
-		`Original file size: ${(originalSize / 1024 / 1024).toFixed(2)} MB`
+		`Original file size: ${(originalSize / 1024 / 1024).toFixed(2)} MB`,
 	);
 	console.log(
-		`Optimized file size: ${(optimizedSize / 1024 / 1024).toFixed(2)} MB`
+		`Optimized file size: ${(optimizedSize / 1024 / 1024).toFixed(2)} MB`,
 	);
 	console.log(
-		`Size reduction: ${((1 - optimizedSize / originalSize) * 100).toFixed(1)}%`
+		`Size reduction: ${((1 - optimizedSize / originalSize) * 100).toFixed(1)}%`,
 	);
 
 	console.log("Optimization complete!");
 	console.log(
-		"You can now replace Cards.json with CardsMinimal.json to reduce load time."
+		"You can now replace Cards.json with CardsMinimal.json to reduce load time.",
 	);
 }
 

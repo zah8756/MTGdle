@@ -28,6 +28,8 @@ const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk", "fjmp"];
 
 const EXCLUDED_LAYOUTS = [
 	"token",
+	"double_faced_token",
+	"emblem",
 	"art_series",
 	"planar",
 	"scheme",
@@ -110,7 +112,7 @@ function optimizeCards(cardsData) {
 	console.log(`Total cards in bulk data: ${cardsData.length}`);
 
 	const filteredCards = cardsData.filter((card) => {
-		if (EXCLUDED_LAYOUTS.includes(card.layout)) return false;
+		if (EXCLUDED_LAYOUTS.includes(card.layout?.toLowerCase())) return false;
 		if (EXCLUDED_SETS.includes(card.set)) return false;
 		if (card.games && !card.games.includes("paper")) return false;
 		if (!card.oracle_text && !card.type_line) return false;
