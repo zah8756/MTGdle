@@ -10,16 +10,18 @@ const getYear = (releasedAt?: string): number => {
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	console.log(goal);
 	return (
-		<div className='mt-5 overflow-x-auto mx-auto pb-10 max-w-full'>
-			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4 min-w-[800px]'>
-				<div className='py-3 border border-gray-700'>Guess #</div>
+		<div className='mt-5 overflow-x-auto mx-auto pb-10 max-w-full rounded-lg'>
+			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4 min-w-[800px] rounded-lg'>
+				<div className='py-3 border border-gray-700 rounded-tl-lg rounded-bl-lg'>
+					Guess #
+				</div>
 				<div className='py-3 border border-gray-700'>Card Name</div>
 				<div className='py-3 border border-gray-700'>Mana Cost</div>
 				<div className='py-3 border border-gray-700'>Colors</div>
 				<div className='py-3 border border-gray-700'>Rarity</div>
 				<div className='py-3 border border-gray-700 px-2'>Release Date/Set</div>
 				<div className='py-3 border border-gray-700'>Type/Super Type</div>
-				<div className='py-3 border border-gray-700'>Subtype</div>
+				<div className='py-3 border border-gray-700 rounded-br-lg'>Subtype</div>
 			</div>
 
 			<div className='space-y-2 min-w-[800px] max-h-160 overflow-y-auto'>
@@ -83,7 +85,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						<div
 							key={i}
 							className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
-							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold'>
+							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-tl-lg rounded-bl-lg'>
 								{i + 1}
 							</div>
 							<div
@@ -242,7 +244,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}
 							</div>
 							<div
-								className={subHelper()}
+								className={`py-2 border border-gray-700 ${subHelper()} rounded-br-lg rounded-tr-lg`}
 								aria-label={(() => {
 									if (subtypeDetail.exact === true) return "Subtype correct";
 									if (subtypeDetail.partial === true)
