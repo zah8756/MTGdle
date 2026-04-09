@@ -4,9 +4,10 @@ import type { Card } from "../App";
 interface InputProps {
 	onGuess: (card: Card) => void;
 	cards: Card[];
+	disabled?: boolean;
 }
 
-const Input = ({ onGuess, cards }: InputProps) => {
+const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 	const [input, setInput] = useState("");
 	const [autoList, setAutoList] = useState<Card[]>([]);
 	const [guessCard, setGuessCard] = useState<Card>();
@@ -78,7 +79,7 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				card.name.toLowerCase().includes(newValue.toLowerCase()),
 			);
 			//sort the cards based on alabetic charters
-			const alphaFiltredCards = filterdCards.sort((a, b) =>
+			const alphaFiltredCards = [...filterdCards].sort((a, b) =>
 				a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
 			);
 			console.log(alphaFiltredCards);
@@ -101,11 +102,16 @@ const Input = ({ onGuess, cards }: InputProps) => {
 				<input
 					type='text'
 					value={input}
-					placeholder='Type card name...'
+					placeholder={disabled ? "Game over" : "Type card name..."}
 					onChange={handleAutoComplete}
 					onKeyDown={handleKeyPress}
-					className={`bg-white text-black border-2 rounded-md p-1 sm:p-2 text-xl sm:text-3xl w-72 sm:w-96 transition-colors ${
-						invalid ? "border-red-500" : "border-gray-300"
+					disabled={disabled}
+					className={`border-2 rounded-md p-1 sm:p-2 text-xl sm:text-3xl w-72 sm:w-96 transition-colors ${
+						disabled
+							? "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300"
+							: invalid
+								? "bg-white text-black border-red-500"
+								: "bg-white text-black border-gray-300"
 					}`}
 				/>
 				{invalid && (
@@ -138,7 +144,8 @@ const Input = ({ onGuess, cards }: InputProps) => {
 			<button
 				onClick={handleSubmit}
 				type='submit'
-				className='text-white bg-black border-2 border-gray-600 cursor-pointer duration-200 ease-in-out hover:bg-neutral-800 hover:border-gray-400 font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500'>
+				disabled={disabled}
+				className='text-white bg-black border-2 border-gray-600 duration-200 ease-in-out font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-neutral-800 hover:enabled:border-gray-400'>
 				Submit
 			</button>
 		</div>

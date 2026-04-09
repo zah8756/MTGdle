@@ -143,4 +143,9 @@ function optimizeCards() {
 	);
 }
 
-optimizeCards();
+try {
+	optimizeCards();
+} catch (err) {
+	console.error("Error during card optimization:", err.message);
+	process.exit(1);
+}

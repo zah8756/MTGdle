@@ -24,6 +24,14 @@ const Modal = ({
 		}
 	}, [isModalOpen]);
 
+	useEffect(() => {
+		const el = modalRef.current;
+		if (!el) return;
+		const handler = () => onClose();
+		el.addEventListener("close", handler);
+		return () => el.removeEventListener("close", handler);
+	}, [onClose]);
+
 	return (
 		<dialog
 		ref={modalRef}

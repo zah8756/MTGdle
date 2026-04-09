@@ -21,6 +21,9 @@ export interface Card {
 	set?: string;
 	set_name?: string;
 	released_at?: string;
+	image_uris?: {
+		normal: string;
+	};
 }
 
 // For local development, use local file. For production, use GitHub release.
@@ -37,7 +40,8 @@ function App() {
 	const [guess, setGuess] = useState<Card[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	
+	const [isPracticeMode, setIsPracticeMode] = useState(false);
+
 	//derived values
 	const guessCount: number = 20;
 	const GuessesLeft: number = guessCount - guess.length;
@@ -49,8 +53,30 @@ function App() {
 		lastGussedCard !== undefined && lastGussedCard.name !== goal.name;
 
 	const cardOfDay = (cards: Card[]): Card => {
-		const index = getCardOfTheDay() - 1; // Convert from 1-35750 to 0-35749
+		const index = getCardOfTheDay() - 1;
 		return cards[index % cards.length];
+	};
+
+	const getRandomCard = (cards: Card[]): Card => {
+		return cards[Math.floor(Math.random() * cards.length)];
+	};
+
+	const handlePlayAgain = () => {
+		setIsPracticeMode(true);
+		setGoal(getRandomCard(cards));
+		setGuess([]);
+	};
+
+	const handleSwitchToDaily = () => {
+		setIsPracticeMode(false);
+		setGoal(cardOfDay(cards));
+		setGuess([]);
+	};
+
+	const handleSwitchToPractice = () => {
+		setIsPracticeMode(true);
+		setGoal(getRandomCard(cards));
+		setGuess([]);
 	};
 
 	// Load cards data asynchronously
@@ -60,7 +86,7 @@ function App() {
 				const response = await fetch(CARDS_DATA_URL);
 				if (!response.ok) {
 					throw new Error(
-						`Failed to load cards data: ${response.status} ${response.statusText}`
+						`Failed to load cards data: ${response.status} ${response.statusText}`,
 					);
 				}
 				const cardData = (await response.json()) as Card[];
@@ -87,10 +113,16 @@ function App() {
 		}
 	}, [cards]);
 
+	const headerProps = {
+		isPracticeMode,
+		onSwitchToDaily: handleSwitchToDaily,
+		onSwitchToPractice: handleSwitchToPractice,
+	};
+
 	if (isLoading) {
 		return (
 			<div className='flex flex-col min-h-screen'>
-				<Header />
+				<Header {...headerProps} />
 				<main className='flex-grow flex items-center justify-center'>
 					<p>Loading cards...</p>
 				</main>
@@ -102,7 +134,7 @@ function App() {
 	if (error) {
 		return (
 			<div className='flex flex-col min-h-screen'>
-				<Header />
+				<Header {...headerProps} />
 				<main className='flex-grow flex flex-col items-center justify-center gap-4'>
 					<p className='text-red-500'>Error loading cards data</p>
 					<p className='text-sm text-gray-500'>{error}</p>
@@ -117,26 +149,33 @@ function App() {
 
 	return (
 		<div className='flex flex-col min-h-screen'>
-			<Header />
+			<Header {...headerProps} />
 			<main className='flex-grow flex flex-col items-center'>
 				<div className='w-full max-w-6xl px-4'>
-					<GameStatus
-						isGameWon={gameWon}
-						isGameLost={isGameLost}
-						isGameOver={isGameOver}
-						guessCountLeft={GuessesLeft}
-						lastGuessWrong={isLastGuessIncorrect}
-					/>
-					<div className='flex'>
-						<p>{goal?.name}</p>
+				{isPracticeMode && (
+					<div className='text-center mt-2'>
+						<span className='inline-block px-3 py-1 text-xs font-medium rounded-full border border-amber-500/50 text-amber-400 bg-amber-500/10 tracking-wide'>
+							Random Mode
+						</span>
 					</div>
-					<br />
-					<Input
-						onGuess={(guess: Card) => {
-							setGuess((currentGuess) => [...currentGuess, guess]);
-						}}
-						cards={cards}
-					/>
+				)}
+				<GameStatus
+					isGameWon={gameWon}
+					isGameLost={isGameLost}
+					isGameOver={isGameOver}
+					guessCountLeft={GuessesLeft}
+					lastGuessWrong={isLastGuessIncorrect}
+					goal={goal}
+					onPlayAgain={handlePlayAgain}
+				/>
+			
+				<Input
+					onGuess={(guess: Card) => {
+						setGuess((currentGuess) => [...currentGuess, guess]);
+					}}
+					cards={cards}
+					disabled={isGameOver}
+				/>
 					<GuessTable guess={guess} goal={goal} />
 				</div>
 			</main>
