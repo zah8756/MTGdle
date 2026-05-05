@@ -30,7 +30,7 @@ const ESSENTIAL_FIELDS = [
 	"image_uris",
 ];
 
-const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk", "fjmp"];
+const EXCLUDED_SETS = ["ugl", "unh", "ust", "und", "unf", "unk", "fjmp", "pcel"];
 
 const EXCLUDED_LAYOUTS = [
 	"token",

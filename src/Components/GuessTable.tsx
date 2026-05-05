@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { Card } from "../App";
 import { compareCardTypes } from "../utils/parseCardType";
 
@@ -9,6 +10,14 @@ const getYear = (releasedAt?: string): number => {
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	console.log(goal);
+	const lastRowRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (guess.length > 0) {
+			lastRowRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+		}
+	}, [guess.length]);
+
 	return (
 		<div className='mt-5 overflow-x-auto mx-auto pb-10 max-w-full rounded-lg'>
 			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4 min-w-[800px] rounded-lg'>
@@ -81,10 +90,11 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						return string.charAt(0).toUpperCase() + string.slice(1);
 					};
 
-					return (
-						<div
-							key={i}
-							className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
+				return (
+					<div
+						key={i}
+						ref={i === guess.length - 1 ? lastRowRef : null}
+						className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
 							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-tl-lg rounded-bl-lg'>
 								{i + 1}
 							</div>
@@ -175,7 +185,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{capitalizeFirstLetter(guessCard?.rarity)}
 							</div>
 
-							{guessCard.released_at === goal.released_at ? (
+							{getYear(guessCard.released_at) === getYear(goal.released_at) ? (
 								<div
 									className={`py-2 border border-gray-700 bg-green-700`}
 									aria-label='Release date correct'>
