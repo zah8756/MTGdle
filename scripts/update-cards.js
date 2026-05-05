@@ -2,6 +2,12 @@ import fs from "fs";
 import path from "path";
 import https from "https";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { chain } = require("stream-chain");
+const { parser } = require("stream-json");
+const { streamArray } = require("stream-json/streamers/stream-array.js");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,7 +44,7 @@ const EXCLUDED_LAYOUTS = [
 
 function httpsGet(url) {
 	return new Promise((resolve, reject) => {
-		https.get(url, { headers: { "User-Agent": "MTGdle/1.0" } }, (res) => {
+		https.get(url, { headers: { "User-Agent": "MTGdle/1.0", "Accept": "application/json" } }, (res) => {
 			// Follow redirects
 			if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
 				return resolve(httpsGet(res.headers.location));
@@ -60,7 +66,7 @@ function downloadFile(url, destPath) {
 		const file = fs.createWriteStream(destPath);
 
 		function doGet(currentUrl) {
-			https.get(currentUrl, { headers: { "User-Agent": "MTGdle/1.0" } }, (res) => {
+			https.get(currentUrl, { headers: { "User-Agent": "MTGdle/1.0", "Accept": "application/json" } }, (res) => {
 				// Follow redirects
 				if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
 					return doGet(res.headers.location);
@@ -113,6 +119,7 @@ function optimizeCards(cardsData) {
 
 	const filteredCards = cardsData.filter((card) => {
 		if (EXCLUDED_LAYOUTS.includes(card.layout?.toLowerCase())) return false;
+		if (card.oversized === true) return false;
 		if (EXCLUDED_SETS.includes(card.set)) return false;
 		if (card.games && !card.games.includes("paper")) return false;
 		if (!card.oracle_text && !card.type_line) return false;
@@ -194,9 +201,19 @@ async function main() {
 		await downloadFile(downloadUrl, rawPath);
 		console.log("\nDownload complete.");
 
-		// Step 3: Parse and optimize
-		console.log("\nParsing bulk data (this may take a moment)...");
-		const cardsData = JSON.parse(fs.readFileSync(rawPath, "utf8"));
+		// Step 3: Stream-parse and optimize (file is too large for JSON.parse)
+		console.log("\nParsing bulk data via streaming (this may take a moment)...");
+		const cardsData = await new Promise((resolve, reject) => {
+			const cards = [];
+			const pipeline = chain([
+				fs.createReadStream(rawPath),
+				parser(),
+				streamArray(),
+			]);
+			pipeline.on("data", ({ value }) => cards.push(value));
+			pipeline.on("end", () => resolve(cards));
+			pipeline.on("error", reject);
+		});
 		const uniqueCards = optimizeCards(cardsData);
 
 		// Step 4: Write to both src/ and public/

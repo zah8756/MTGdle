@@ -1,6 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { createRequire } from "module";
+
+const require = createRequire(import.meta.url);
+const { chain } = require("stream-chain");
+const { parser } = require("stream-json");
+const { streamArray } = require("stream-json/streamers/stream-array.js");
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -36,10 +42,21 @@ const EXCLUDED_LAYOUTS = [
 	"vanguard",
 ];
 
-function optimizeCards() {
+async function optimizeCards() {
 	console.log("Reading default-cards-new.json...");
 	const cardsPath = path.join(__dirname, "../src/default-cards-new.json");
-	const cardsData = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
+
+	const cardsData = await new Promise((resolve, reject) => {
+		const cards = [];
+		const pipeline = chain([
+			fs.createReadStream(cardsPath),
+			parser(),
+			streamArray(),
+		]);
+		pipeline.on("data", ({ value }) => cards.push(value));
+		pipeline.on("end", () => resolve(cards));
+		pipeline.on("error", reject);
+	});
 
 	console.log(`Original cards count: ${cardsData.length}`);
 
@@ -51,6 +68,8 @@ function optimizeCards() {
 		if (EXCLUDED_SETS.includes(card.set)) return false;
 		// Skip MTG Arena exclusive cards (only include cards available in paper)
 		if (card.games && !card.games.includes("paper")) return false;
+		// Skip oversized cards
+		if (card.oversized === true) return false;
 		// Skip funny promo-only things without oracle_text
 		if (!card.oracle_text && !card.type_line) return false;
 
@@ -119,9 +138,12 @@ function optimizeCards() {
 		} duplicate printings)`,
 	);
 
-	// Write optimized cards
+	// Write optimized cards to both src/ and public/
 	const optimizedPath = path.join(__dirname, "../src/CardsMinimal.json");
-	fs.writeFileSync(optimizedPath, JSON.stringify(uniqueCards, null, 0));
+	const publicPath = path.join(__dirname, "../public/CardsMinimal.json");
+	const outputJson = JSON.stringify(uniqueCards);
+	fs.writeFileSync(optimizedPath, outputJson);
+	fs.writeFileSync(publicPath, outputJson);
 
 	// Get file sizes
 	const originalSize = fs.statSync(cardsPath).size;
@@ -143,9 +165,7 @@ function optimizeCards() {
 	);
 }
 
-try {
-	optimizeCards();
-} catch (err) {
+optimizeCards().catch((err) => {
 	console.error("Error during card optimization:", err.message);
 	process.exit(1);
-}
+});

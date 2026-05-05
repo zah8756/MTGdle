@@ -31,7 +31,7 @@ const CARDS_DATA_URL =
 	import.meta.env.VITE_CARDS_DATA_URL ||
 	(import.meta.env.DEV
 		? "/CardsMinimal.json" // Local development: use file in public folder
-		: "https://github.com/zah8756/MTGdle/releases/download/V0.1-alpha/CardsMinimal.json"); // Production: GitHub release
+		: "https://github.com/zah8756/MTGdle/releases/download/V0.2-alpha/CardsMinimal.json"); // Production: GitHub release
 
 function App() {
 	//state values
@@ -53,8 +53,8 @@ function App() {
 		lastGussedCard !== undefined && lastGussedCard.name !== goal.name;
 
 	const cardOfDay = (cards: Card[]): Card => {
-		const index = getCardOfTheDay() - 1;
-		return cards[index % cards.length];
+		const index = getCardOfTheDay(cards.length);
+		return cards[index];
 	};
 
 	const getRandomCard = (cards: Card[]): Card => {
@@ -152,30 +152,30 @@ function App() {
 			<Header {...headerProps} />
 			<main className='flex-grow flex flex-col items-center'>
 				<div className='w-full max-w-6xl px-4'>
-				{isPracticeMode && (
-					<div className='text-center mt-2'>
-						<span className='inline-block px-3 py-1 text-xs font-medium rounded-full border border-amber-500/50 text-amber-400 bg-amber-500/10 tracking-wide'>
-							Random Mode
-						</span>
-					</div>
-				)}
-				<GameStatus
-					isGameWon={gameWon}
-					isGameLost={isGameLost}
-					isGameOver={isGameOver}
-					guessCountLeft={GuessesLeft}
-					lastGuessWrong={isLastGuessIncorrect}
-					goal={goal}
-					onPlayAgain={handlePlayAgain}
-				/>
-			
-				<Input
-					onGuess={(guess: Card) => {
-						setGuess((currentGuess) => [...currentGuess, guess]);
-					}}
-					cards={cards}
-					disabled={isGameOver}
-				/>
+					{isPracticeMode && (
+						<div className='text-center mt-2'>
+							<span className='inline-block px-3 py-1 text-xs font-medium rounded-full border border-amber-500/50 text-amber-400 bg-amber-500/10 tracking-wide'>
+								Random Mode
+							</span>
+						</div>
+					)}
+					<GameStatus
+						isGameWon={gameWon}
+						isGameLost={isGameLost}
+						isGameOver={isGameOver}
+						guessCountLeft={GuessesLeft}
+						lastGuessWrong={isLastGuessIncorrect}
+						goal={goal}
+						onPlayAgain={handlePlayAgain}
+					/>
+
+					<Input
+						onGuess={(guess: Card) => {
+							setGuess((currentGuess) => [...currentGuess, guess]);
+						}}
+						cards={cards}
+						disabled={isGameOver}
+					/>
 					<GuessTable guess={guess} goal={goal} />
 				</div>
 			</main>
