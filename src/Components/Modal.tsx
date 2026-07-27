@@ -35,14 +35,13 @@ const Modal = ({
 	return (
 		<dialog
 		ref={modalRef}
-		className='bg-white rounded shadow-md p-8 w-[75%] max-w-[600px] opacity-100 flex flex-col text-black m-auto z-30 inset-0 backdrop:bg-black/50 relative gap-4 text-start'
+		className='bg-neutral-900 border border-gray-700 rounded-lg shadow-xl p-8 w-[75%] max-w-[600px] opacity-100 flex flex-col text-gray-100 m-auto z-30 inset-0 backdrop:bg-black/60 relative gap-4 text-start'
 		role='dialog'
 		aria-label='Dialog-modal'
 		tabIndex={-1}>
 		<button
-		//get rid of focus on close 
 			onClick={() => onClose()}
-			className='absolute top-2 right-2 flex justify-center items-center w-10 h-10 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-400'
+			className='absolute top-2 right-2 flex justify-center items-center w-10 h-10 text-gray-400 hover:text-white hover:bg-white/10 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-600'
 			type='button'
 			aria-label='Close modal'>
 			<svg

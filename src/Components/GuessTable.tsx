@@ -14,23 +14,40 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 
 	useEffect(() => {
 		if (guess.length > 0) {
-			lastRowRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+			lastRowRef.current?.scrollIntoView({
+				behavior: "smooth",
+				block: "nearest",
+			});
 		}
 	}, [guess.length]);
 
 	return (
 		<div className='mt-5 overflow-x-auto mx-auto pb-10 max-w-full rounded-lg'>
-			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-t-lg mb-4 min-w-[800px] rounded-lg'>
-				<div className='py-3 border border-gray-700 rounded-tl-lg rounded-bl-lg'>
+			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-lg mb-4 min-w-[800px]'>
+				<div className='p-3 justify-center items-center border flex border-gray-700 rounded-tl-lg rounded-bl-lg'>
 					Guess #
 				</div>
-				<div className='py-3 border border-gray-700'>Card Name</div>
-				<div className='py-3 border border-gray-700'>Mana Cost</div>
-				<div className='py-3 border border-gray-700'>Colors</div>
-				<div className='py-3 border border-gray-700'>Rarity</div>
-				<div className='py-3 border border-gray-700 px-2'>Release Date/Set</div>
-				<div className='py-3 border border-gray-700'>Type/Super Type</div>
-				<div className='py-3 border border-gray-700 rounded-br-lg'>Subtype</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Card Name
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Mana Cost
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Colors
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Rarity
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Release Date/Set
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Type/Super Type
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700 rounded-br-lg rounded-tr-lg'>
+					Subtype
+				</div>
 			</div>
 
 			<div className='space-y-2 min-w-[800px] max-h-160 overflow-y-auto'>
@@ -90,11 +107,11 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						return string.charAt(0).toUpperCase() + string.slice(1);
 					};
 
-				return (
-					<div
-						key={i}
-						ref={i === guess.length - 1 ? lastRowRef : null}
-						className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
+					return (
+						<div
+							key={i}
+							ref={i === guess.length - 1 ? lastRowRef : null}
+							className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
 							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-tl-lg rounded-bl-lg'>
 								{i + 1}
 							</div>

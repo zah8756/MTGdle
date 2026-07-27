@@ -145,7 +145,7 @@ const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 				onClick={handleSubmit}
 				type='submit'
 				disabled={disabled}
-				className='text-white bg-black border-2 border-gray-600 duration-200 ease-in-out font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-neutral-800 hover:enabled:border-gray-400'>
+				className='cursor-pointer text-white bg-black border-2 border-gray-600 duration-200 ease-in-out font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-neutral-800 hover:enabled:border-gray-400'>
 				Submit
 			</button>
 		</div>

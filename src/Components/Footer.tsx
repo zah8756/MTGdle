@@ -12,7 +12,7 @@ const Footer = () => {
 					className='flex items-center gap-2 px-5 py-1 bg-neutral-900/95 backdrop-blur-sm border border-gray-700 border-b-0 rounded-t-lg text-gray-400 hover:text-white transition-colors text-xs font-medium tracking-wide'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
-						className={`h-3 w-3 transition-transform duration-300 ${isLegendOpen ? "" : "rotate-180"}`}
+						className={`h-3 w-3 transition-transform duration-300 ${isLegendOpen ? "rotate-180" : ""}`}
 						fill='none'
 						viewBox='0 0 24 24'
 						stroke='currentColor'
@@ -26,7 +26,7 @@ const Footer = () => {
 					Legend
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
-						className={`h-3 w-3 transition-transform duration-300 ${isLegendOpen ? "" : "rotate-180"}`}
+						className={`h-3 w-3 transition-transform duration-300 ${isLegendOpen ? "rotate-180" : ""}`}
 						fill='none'
 						viewBox='0 0 24 24'
 						stroke='currentColor'
