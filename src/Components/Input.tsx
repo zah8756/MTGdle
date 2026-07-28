@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import type { Card } from "../App";
+import debounce from "../utils/debounce";
 
 interface InputProps {
 	onGuess: (card: Card) => void;
@@ -65,28 +66,45 @@ const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 		}
 	};
 
+	const debouncedFilter = useRef(
+			debounce((value: string) => {
+			if (value.length >= 3) {
+				const filteredCards = cards.filter((card) =>
+					card.name.toLowerCase().includes(value.toLowerCase()),
+				);
+				const alphaFilteredCards = [...filteredCards].sort((a, b) =>
+					a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
+				);
+				setAutoList(alphaFilteredCards);
+			} else {
+				setAutoList([]);
+			}
+		}, 150),
+	);
+
+	useEffect(() => {
+		debouncedFilter.current = debounce((value: string) => {
+			if (value.length >= 3) {
+				const filteredCards = cards.filter((card) =>
+					card.name.toLowerCase().includes(value.toLowerCase()),
+				);
+				const alphaFilteredCards = [...filteredCards].sort((a, b) =>
+					a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
+				);
+				setAutoList(alphaFilteredCards);
+			} else {
+				setAutoList([]);
+			}
+		}, 150);
+	}, [cards]);
+
 	const handleAutoComplete = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newValue = event.target.value;
 		setInvalid(false);
 		setInput(newValue);
-		setGuessCard(undefined); // Clear selected card when typing
+		setGuessCard(undefined);
 		setAutoListActive(-1);
-
-		if (newValue.length >= 3) {
-			console.log("start auto complete");
-			//filter the cards based on the card name
-			const filterdCards = cards.filter((card) =>
-				card.name.toLowerCase().includes(newValue.toLowerCase()),
-			);
-			//sort the cards based on alabetic charters
-			const alphaFiltredCards = [...filterdCards].sort((a, b) =>
-				a.name > b.name ? 1 : b.name > a.name ? -1 : 0,
-			);
-			console.log(alphaFiltredCards);
-			setAutoList(alphaFiltredCards.map((card) => card));
-		} else {
-			setAutoList([]);
-		}
+		debouncedFilter.current(newValue);
 	};
 
 	const handleCardSelect = (card: Card) => {
