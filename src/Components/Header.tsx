@@ -25,22 +25,22 @@ const Header = ({
 			<div className='flex justify-center gap-1.5 sm:gap-2'>
 				<button
 					onClick={() => setIsAboutModalOpen(true)}
-					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
+					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-3 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
 					About
 				</button>
 				<button
 					onClick={() => setIsRulesModalOpen(true)}
-					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
+					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-3 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
 					How to play
 				</button>
 				<button
 					onClick={() => setIsCreditsModalOpen(true)}
-					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
+					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-3 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
 					Credits
 				</button>
 				<button
 					onClick={() => setModesModalOpen(true)}
-					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
+					className='cursor-pointer px-3 py-1.5 text-xs sm:px-4 sm:py-3 sm:text-sm rounded-md border border-gray-600 bg-[var(--btn-bg)] text-gray-200 hover:bg-[var(--btn-bg-hover)] hover:text-white hover:border-gray-400 transition-all duration-200'>
 					Modes
 				</button>
 			</div>
@@ -49,9 +49,9 @@ const Header = ({
 					isModalOpen={isAboutModalOpen}
 					onClose={() => setIsAboutModalOpen(false)}>
 					<div className='flex flex-col gap-2'>
-					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
-						About
-					</h2>
+						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
+							About
+						</h2>
 						<p className='mb-2'>
 							MTGdle is a wordle-style game for Magic: The Gathering cards.
 						</p>
@@ -82,9 +82,9 @@ const Header = ({
 
 					<div className='flex flex-col gap-2'>
 						{" "}
-					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
-						Feedback
-					</h2>
+						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
+							Feedback
+						</h2>
 						<p className='mb-2'>
 							Have feedback or suggestions? Please contact me at{" "}
 							<a href='mailto:zah8756@gmail.com'>zah8756@gmail.com</a>.
@@ -179,13 +179,13 @@ const Header = ({
 							}`}>
 							<div>
 								<p
-								className={`font-bold text-lg  ${!isPracticeMode ? "text-emerald-300" : "text-gray-200 group-hover:text-gray-400"}`}>
-								Card of the Day
-							</p>
-							<p
-								className={`text-s mt-0.5 ${!isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
-								A new card every day, the same for everyone.
-							</p>
+									className={`font-bold text-lg  ${!isPracticeMode ? "text-emerald-300" : "text-gray-200 group-hover:text-gray-400"}`}>
+									Card of the Day
+								</p>
+								<p
+									className={`text-s mt-0.5 ${!isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
+									A new card every day, the same for everyone.
+								</p>
 							</div>
 							{!isPracticeMode && (
 								<svg
@@ -213,13 +213,13 @@ const Header = ({
 							}`}>
 							<div>
 								<p
-								className={`font-bold text-lg ${isPracticeMode ? "text-emerald-300" : "text-gray-200 group-hover:text-gray-400"}`}>
-								Random Card
-							</p>
-							<p
-								className={`text-s mt-0.5 ${isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
-								A random card each time — play as many as you like.
-							</p>
+									className={`font-bold text-lg ${isPracticeMode ? "text-emerald-300" : "text-gray-200 group-hover:text-gray-400"}`}>
+									Random Card
+								</p>
+								<p
+									className={`text-s mt-0.5 ${isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
+									A random card each time — play as many as you like.
+								</p>
 							</div>
 							{isPracticeMode && (
 								<svg
