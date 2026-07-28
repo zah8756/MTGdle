@@ -36,14 +36,14 @@ const GameStatus = ({
 			{isGameOver && (
 				<Modal isModalOpen={true} onClose={() => {}}>
 					{isGameWon && (
-						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
-							Congratulations! You won!
-						</h2>
+					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
+						Congratulations! You won!
+					</h2>
 					)}
 					{isGameLost && (
-						<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-300'>
-							Game Over! You ran out of guesses.
-						</h2>
+					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
+						Game Over! You ran out of guesses.
+					</h2>
 					)}
 					<div className='flex flex-col items-center justify-center gap-2'>
 						<img

@@ -67,7 +67,7 @@ const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 	};
 
 	const debouncedFilter = useRef(
-			debounce((value: string) => {
+		debounce((value: string) => {
 			if (value.length >= 3) {
 				const filteredCards = cards.filter((card) =>
 					card.name.toLowerCase().includes(value.toLowerCase()),
@@ -124,7 +124,7 @@ const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 					onChange={handleAutoComplete}
 					onKeyDown={handleKeyPress}
 					disabled={disabled}
-					className={`border-2 rounded-md p-1 sm:p-2 text-xl sm:text-3xl w-72 sm:w-96 transition-colors ${
+					className={`border-1 rounded-md p-1 sm:p-2 text-xl sm:text-3xl w-72 sm:w-96 transition-colors ${
 						disabled
 							? "bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300"
 							: invalid
@@ -163,7 +163,7 @@ const Input = ({ onGuess, cards, disabled = false }: InputProps) => {
 				onClick={handleSubmit}
 				type='submit'
 				disabled={disabled}
-				className='cursor-pointer text-white bg-black border-2 border-gray-600 duration-200 ease-in-out font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-2.5 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-neutral-800 hover:enabled:border-gray-400'>
+				className='cursor-pointer text-white bg-black border-1 border-gray-600 duration-200 ease-in-out font-medium text-xl sm:text-3xl px-6 py-1.5 sm:py-3 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-40 disabled:cursor-not-allowed hover:enabled:bg-neutral-800 hover:enabled:border-gray-400'>
 				Submit
 			</button>
 		</div>

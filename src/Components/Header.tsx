@@ -160,7 +160,7 @@ const Header = ({
 				<Modal
 					isModalOpen={modesModalOpen}
 					onClose={() => setModesModalOpen(false)}>
-					<h2 className='text-3xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
+					<h2 className='text-2xl font-bold after:content-["_"] after:block after:w-full after:h-[1px] after:bg-gray-700'>
 						Modes
 					</h2>
 					<p className='text-lg text-gray-400 mb-4'>
@@ -183,7 +183,7 @@ const Header = ({
 									Card of the Day
 								</p>
 								<p
-									className={`text-s mt-0.5 ${!isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
+									className={`text-sm mt-0.5 ${!isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
 									A new card every day, the same for everyone.
 								</p>
 							</div>
@@ -217,7 +217,7 @@ const Header = ({
 									Random Card
 								</p>
 								<p
-									className={`text-s mt-0.5 ${isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
+									className={`text-sm mt-0.5 ${isPracticeMode ? "text-emerald-400" : "text-gray-400 group-hover:text-gray-500"}`}>
 									A random card each time — play as many as you like.
 								</p>
 							</div>
