@@ -23,9 +23,12 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 
 	return (
 		<div className='mt-5 overflow-x-auto mx-auto pb-10 max-w-full rounded-lg'>
-			<div className='grid grid-cols-8 text-center text-white font-bold bg-black/60 rounded-lg mb-4 min-w-[800px]'>
+			<div className='grid grid-cols-9 text-center text-white font-bold bg-black/60 rounded-lg mb-4 min-w-[800px]'>
 				<div className='p-3 justify-center items-center border flex border-gray-700 rounded-tl-lg rounded-bl-lg'>
 					Guess #
+				</div>
+				<div className='p-3 justify-center items-center border flex border-gray-700'>
+					Card{" "}
 				</div>
 				<div className='p-3 justify-center items-center border flex border-gray-700'>
 					Card Name
@@ -111,12 +114,15 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						<div
 							key={i}
 							ref={i === guess.length - 1 ? lastRowRef : null}
-							className='grid grid-cols-8 text-center text-white rounded-lg wrap-anywhere'>
+							className='grid grid-cols-9 text-center text-white rounded-lg wrap-anywhere gap-2 min-h-24'>
 							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-tl-lg rounded-bl-lg'>
 								{i + 1}
 							</div>
+						<div className='border border-gray-700 overflow-hidden rounded-lg'>
+							<img src={guessCard.image_uris?.normal} alt={guessCard.name} className='w-full h-full object-cover block'/>
+							</div>
 							<div
-								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2 ${
+								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2 rounded-lg ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
 								}`}
 								aria-label={
@@ -129,7 +135,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 							{guessCard.cmc === goal.cmc ? (
 								<div
 									className={
-										"py-2 border border-gray-700 bg-green-700 flex justify-center relative items-center"
+										"py-2 border border-gray-700 bg-green-700 flex justify-center relative items-center rounded-lg"
 									}
 									aria-label='Mana cost correct'>
 									<i
@@ -141,14 +147,14 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									goal?.cmc !== undefined &&
 									guessCard.cmc > goal.cmc ? (
 										<div
-											className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-down-arrow relative items-center "
+											className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-down-arrow relative items-center rounded-lg"
 											aria-label={`Mana cost incorrect: ${guessCard.cmc} is too high, should be lower`}>
 											<i
 												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow relative z-10 `}></i>
 										</div>
 									) : (
 										<div
-											className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-up-arrow relative items-center"
+											className="py-2 border border-gray-700 bg-red-700 flex justify-center gap-5 after:content-[''] after:clip-up-arrow relative items-center rounded-lg"
 											aria-label={`Mana cost incorrect: ${guessCard.cmc} is too low, should be higher`}>
 											<i
 												className={`ms ms-${guessCard.cmc} ms-cost ms-2x ms-shadow relative z-10`}></i>
@@ -157,7 +163,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								</>
 							)}
 							<div
-								className={colorHelper()}
+								className={colorHelper() + " rounded-lg"}
 								aria-label={(() => {
 									const guessColors = guessCard.colors ?? [];
 									const goalColors = goal.colors ?? [];
@@ -187,7 +193,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								)}
 							</div>
 							<div
-								className={`py-2 border border-gray-700  content-center ${
+								className={`py-2 border border-gray-700 justify-center items-center content-center rounded-lg ${
 									guessCard.rarity === goal.rarity
 										? "bg-green-700"
 										: "bg-red-700"
@@ -204,9 +210,9 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 
 							{getYear(guessCard.released_at) === getYear(goal.released_at) ? (
 								<div
-									className={`py-2 border border-gray-700 bg-green-700`}
+									className={`py-2 border border-gray-700 bg-green-700 flex justify-center items-center rounded-lg`}
 									aria-label='Release date correct'>
-									<div className='flex justify-center flex-col'>
+									<div className='flex justify-center items-center flex-col'>
 										<i
 											className={`ss ss-${guessCard.set} ss-${guessCard.rarity} ss-grad ss-2x`}
 											title={guessCard.set_name}
@@ -219,11 +225,11 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									{getYear(guessCard.released_at) >
 									getYear(goal.released_at) ? (
 										<div
-											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-down-arrow`}
+											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-down-arrow flex justify-center items-center rounded-lg`}
 											aria-label={`Release date incorrect: ${getYear(
 												guessCard.released_at,
 											)} is too recent, should be earlier`}>
-											<div className='flex justify-center flex-col'>
+											<div className='flex justify-center items-center flex-col'>
 												<i
 													className={`ss ss-${guessCard.set} ss-${guessCard.rarity}  ss-grad ss-2x z-10 relative`}
 													title={guessCard.set_name}
@@ -235,11 +241,11 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										</div>
 									) : (
 										<div
-											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-up-arrow`}
+											className={`py-2 border border-gray-700 bg-red-700 relative after:content-[''] after:clip-up-arrow flex justify-center items-center rounded-lg`}
 											aria-label={`Release date incorrect: ${getYear(
 												guessCard.released_at,
 											)} is too old, should be more recent`}>
-											<div className='flex justify-center flex-col'>
+											<div className='flex justify-center items-center flex-col'>
 												<i
 													className={`ss ss-${guessCard.set} ss-${guessCard.rarity} ss-grad ss-2x z-10 relative`}
 													title={guessCard.set_name}
@@ -253,7 +259,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								</>
 							)}
 							<div
-								className={typeHelper()}
+								className={`py-2 border border-gray-700 ${typeHelper()} rounded-lg`}
 								aria-label={(() => {
 									if (
 										supertypeDetail.exact === true &&
@@ -271,7 +277,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}
 							</div>
 							<div
-								className={`py-2 border border-gray-700 ${subHelper()} rounded-br-lg rounded-tr-lg`}
+									className={`py-2 border border-gray-700 ${subHelper()} rounded-lg`}
 								aria-label={(() => {
 									if (subtypeDetail.exact === true) return "Subtype correct";
 									if (subtypeDetail.partial === true)

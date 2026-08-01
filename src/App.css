@@ -3,10 +3,11 @@
 /* Custom clip-path utilities */
 @utility clip-up-arrow {
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
 	clip-path: polygon(
 		50% 0%,
 		0% 60%,
@@ -35,10 +36,11 @@
 
 @utility clip-down-arrow {
 	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100px;
+	height: 100px;
 	clip-path: polygon(
 		50% 100%,
 		0% 40%,
