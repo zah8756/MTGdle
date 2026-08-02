@@ -8,7 +8,36 @@ const getYear = (releasedAt?: string): number => {
 	return isNaN(year) ? 0 : year;
 };
 
+interface FlipCellProps {
+	colIndex: number;
+	isFlipped: boolean;
+	front: React.ReactNode;
+	back: React.ReactNode;
+	className?: string;
+}
+
 const FLIP_DELAY = 100;
+
+const FlipCell = ({
+	colIndex,
+	isFlipped,
+	front,
+	back,
+	className,
+}: FlipCellProps) => (
+	<div className={`perspective-normal [overflow:clip] ${className ?? ""}`}>
+		<div
+			style={{
+				transitionDelay: isFlipped ? `${colIndex * FLIP_DELAY}ms` : "0ms",
+			}}
+			className={`relative transform-3d w-full h-full transition-transform duration-700 ${isFlipped ? "rotate-y-180" : ""}`}>
+			<div className='backface-hidden w-full h-full'>{front}</div>
+			<div className='absolute inset-0 rotate-y-180 backface-hidden'>
+				{back}
+			</div>
+		</div>
+	</div>
+);
 
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	console.log(goal);
@@ -126,7 +155,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{i + 1}
 							</div>
 
-							<div className='perspective-normal rounded-lg [overflow:clip] w-full h-full'>
+							{/* <div className='perspective-normal rounded-lg [overflow:clip] w-full h-full'>
 								<div
 									style={{
 										transitionDelay: flippedRows.has(i)
@@ -143,9 +172,27 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										className='w-full h-full object-cover block backface-hidden rounded-lg rotate-y-180'
 									/>
 								</div>
-							</div>
+							</div> */}
 
-							<div
+							<FlipCell
+								colIndex={1}
+								isFlipped={flippedRows.has(i)}
+								front={
+									<img
+										src={guessCard.image_uris?.normal}
+										alt={guessCard.name}
+										className='w-full h-full object-cover block backface-hidden rounded-lg'
+									/>
+								}
+								back={
+									<div className='absolute top-0 left-0 w-full h-full backface-hidden bg-blue-500 flex items-center justify-center'>
+										card Back
+									</div>
+								}
+								className='rounded-lg'
+							/>
+
+							{/* <div
 								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2 rounded-lg ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
 								}`}
@@ -155,7 +202,34 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 										: `Card name incorrect: guessed ${guessCard.name}`
 								}>
 								{guessCard.name}
-							</div>
+							</div> */}
+
+							<FlipCell
+								colIndex={2}
+								isFlipped={flippedRows.has(i)}
+								front={
+									<div
+										className={`py-2 border border-gray-700 content-center w-full h-full line-clamp-3 px-2 rounded-lg ${
+											guessCard.name === goal.name
+												? "bg-green-700"
+												: "bg-red-700"
+										}`}
+										aria-label={
+											guessCard.name === goal.name
+												? "Card name correct"
+												: `Card name incorrect: guessed ${guessCard.name}`
+										}>
+										{guessCard.name}
+									</div>
+								}
+								back={
+									<div className='absolute top-0 left-0 w-full h-full backface-hidden bg-blue-500 flex items-center justify-center'>
+										card Back
+									</div>
+								}
+								className='rounded-lg'
+							/>
+
 							{guessCard.cmc === goal.cmc ? (
 								<div
 									className={
