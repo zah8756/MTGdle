@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Card } from "../App";
 import { compareCardTypes } from "../utils/parseCardType";
 
@@ -8,9 +8,12 @@ const getYear = (releasedAt?: string): number => {
 	return isNaN(year) ? 0 : year;
 };
 
+const FLIP_DELAY = 100;
+
 const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 	console.log(goal);
 	const lastRowRef = useRef<HTMLDivElement>(null);
+	const [flippedRows, setFlippedRows] = useState<Set<number>>(new Set());
 
 	useEffect(() => {
 		if (guess.length > 0) {
@@ -18,6 +21,10 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 				behavior: "smooth",
 				block: "nearest",
 			});
+			const timer = setTimeout(() => {
+				setFlippedRows((prev) => new Set([...prev, guess.length - 1]));
+			}, 100);
+			return () => clearTimeout(timer);
 		}
 	}, [guess.length]);
 
@@ -115,12 +122,29 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 							key={i}
 							ref={i === guess.length - 1 ? lastRowRef : null}
 							className='grid grid-cols-9 text-center text-white rounded-lg wrap-anywhere gap-2 min-h-24'>
-							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-tl-lg rounded-bl-lg'>
+							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-lg'>
 								{i + 1}
 							</div>
-						<div className='border border-gray-700 overflow-hidden rounded-lg'>
-							<img src={guessCard.image_uris?.normal} alt={guessCard.name} className='w-full h-full object-cover block'/>
+
+							<div className='perspective-normal rounded-lg [overflow:clip] w-full h-full'>
+								<div
+									style={{
+										transitionDelay: flippedRows.has(i)
+											? `${1 * FLIP_DELAY}ms`
+											: "0ms",
+									}}
+									className={`relative transform-3d w-full h-full transition-transform duration-700 ${flippedRows.has(i) ? "rotate-y-180" : ""}`}>
+									<div className='absolute top-0 left-0 w-full h-full backface-hidden  bg-blue-500 flex items-center justify-center'>
+										card Back
+									</div>
+									<img
+										src={guessCard.image_uris?.normal}
+										alt={guessCard.name}
+										className='w-full h-full object-cover block backface-hidden rounded-lg rotate-y-180'
+									/>
+								</div>
 							</div>
+
 							<div
 								className={`py-2 border border-gray-700 content-center line-clamp-3 px-2 rounded-lg ${
 									guessCard.name === goal.name ? "bg-green-700" : "bg-red-700"
@@ -277,7 +301,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 								{guessTypes.supertypes.concat(guessTypes.types).join(" ")}
 							</div>
 							<div
-									className={`py-2 border border-gray-700 ${subHelper()} rounded-lg`}
+								className={`py-2 border border-gray-700 ${subHelper()} rounded-lg`}
 								aria-label={(() => {
 									if (subtypeDetail.exact === true) return "Subtype correct";
 									if (subtypeDetail.partial === true)

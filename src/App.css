@@ -6,8 +6,8 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 100px;
-	height: 100px;
+	width: 90%;
+	height: 65%;
 	clip-path: polygon(
 		50% 0%,
 		0% 60%,
@@ -39,8 +39,8 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	width: 100px;
-	height: 100px;
+	width: 90%;
+	height: 65%;
 	clip-path: polygon(
 		50% 100%,
 		0% 40%,
