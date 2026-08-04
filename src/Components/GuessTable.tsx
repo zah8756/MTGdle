@@ -158,7 +158,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 						<div
 							key={i}
 							ref={i === guess.length - 1 ? lastRowRef : null}
-							className='grid grid-cols-9 text-center text-white rounded-lg wrap-anywhere overflow-y-auto gap-2 min-h-24'>
+							className='grid grid-cols-9 text-center text-white rounded-lg wrap-anywhere-auto gap-2 min-h-24'>
 							<div className='bg-black py-2 border border-gray-700 flex justify-center items-center font-bold rounded-lg'>
 								{i + 1}
 							</div>
@@ -170,6 +170,12 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									<img
 										src={guessCard.image_uris?.normal}
 										alt={guessCard.name}
+										onLoad={() => {
+											rowsContainerRef.current?.scrollTo({
+												top: rowsContainerRef.current.scrollHeight,
+												behavior: "smooth",
+											});
+										}}
 										className='w-full h-full object-cover block backface-hidden rounded-lg'
 									/>
 								}
