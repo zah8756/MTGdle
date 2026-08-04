@@ -14,8 +14,16 @@
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	--btn-bg: color-mix(in oklab, oklch(0.17 0.08 306.89 / 0.98) 90%, transparent);
-	--btn-bg-hover: color-mix(in oklab, oklch(0.22 0.08 306.89 / 0.98) 90%, transparent);
+	--btn-bg: color-mix(
+		in oklab,
+		oklch(0.17 0.08 306.89 / 0.98) 90%,
+		transparent
+	);
+	--btn-bg-hover: color-mix(
+		in oklab,
+		oklch(0.22 0.08 306.89 / 0.98) 90%,
+		transparent
+	);
 }
 
 a {
@@ -29,7 +37,9 @@ a:hover {
 
 body {
 	margin: 0;
-	min-width: 320px;
+	width: 100%;
 	min-height: 100vh;
-	overflow-x: hidden;
+	overflow-x: clip;
+	overflow-y: auto;
+	overscroll-behavior-x: none;
 }

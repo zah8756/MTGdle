@@ -148,10 +148,10 @@ function App() {
 	}
 
 	return (
-		<div className='flex flex-col min-h-screen'>
+		<div className='flex flex-col min-h-screen w-full min-w-0 overflow-x-clip'>
 			<Header {...headerProps} />
-			<main className='flex-grow flex flex-col items-center'>
-				<div className='w-full max-w-6xl px-4'>
+			<main className='flex-grow flex flex-col w-full min-w-0 overflow-x-clip'>
+				<div className='w-full max-w-6xl mx-auto px-4 min-w-0'>
 					{isPracticeMode && (
 						<div className='text-center mt-2'>
 							<span className='inline-block px-3 py-1 text-xs font-medium rounded-full border border-amber-500/50 text-amber-400 bg-amber-500/10 tracking-wide'>

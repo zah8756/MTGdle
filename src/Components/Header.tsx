@@ -18,7 +18,7 @@ const Header = ({
 	const [modesModalOpen, setModesModalOpen] = useState<boolean>(false);
 
 	return (
-		<header className='w-full max-w-6xl mx-auto px-4 flex  justify-center flex-col gap-4'>
+		<header className='w-full max-w-6xl mx-auto px-4 flex justify-center flex-col gap-4 min-w-0 overflow-x-clip'>
 			<h1 className='font-bold text-6xl tracking-wide title-shadow sm:text-8xl'>
 				MTGdle
 			</h1>

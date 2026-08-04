@@ -5,7 +5,8 @@ const Footer = () => {
 	const contentRef = useRef<HTMLDivElement>(null);
 	return (
 		<>
-			<footer className='text-gray-400 text-sm z-20 fixed bottom-0 left-0 right-0 flex flex-col items-center w-full max-w-6xl mx-auto px-4'>
+		<footer className='text-gray-400 text-sm z-20 fixed bottom-0 inset-x-0 flex flex-col items-center pointer-events-none'>
+			<div className='w-full max-w-6xl px-4 flex flex-col items-center pointer-events-auto'>
 				{/* Shirt-tag tab — the only thing visible when collapsed */}
 				<button
 					onClick={() => setIsLegendOpen((prev) => !prev)}
@@ -50,7 +51,7 @@ const Footer = () => {
 						transition: "max-height 0.35s ease-in-out",
 					}}
 					className='w-full bg-neutral-900/95 backdrop-blur-sm border-t border-gray-700 rounded-t-lg '>
-					<div className='max-w-6xl mx-auto px-4 py-4 flex flex-col gap-4'>
+					<div className='px-4 py-4 flex flex-col gap-4'>
 						{/* Hint colour key */}
 						<div>
 							<p className='text-xs uppercase tracking-widest text-gray-200 mb-3'>
@@ -120,7 +121,8 @@ const Footer = () => {
 						</div>
 					</div>
 				</div>
-			</footer>
+			</div>
+		</footer>
 		</>
 	);
 };
