@@ -19,7 +19,8 @@ interface FlipCellProps {
 const FLIP_DELAY = 150;
 
 const FlipCell = ({ colIndex, isFlipped, front, className }: FlipCellProps) => (
-	<div className={`perspective-normal [overflow:clip] ${className ?? ""}`}>
+	<div
+		className={`perspective-normal [overflow:clip] aspect-[5/7] ${className ?? ""}`}>
 		<div
 			style={{
 				transitionDelay: isFlipped ? `${colIndex * FLIP_DELAY}ms` : "0ms",
@@ -210,7 +211,7 @@ const GuessTable = ({ guess, goal }: { guess: Card[]; goal: Card }) => {
 									front={
 										<div
 											className={
-												"py-2 border border-gray-700 bg-green-700 flex justify-center relative items-center rounded-lg"
+												"py-2 border border-gray-700 bg-green-700 flex justify-center w-full h-full relative items-center rounded-lg"
 											}
 											aria-label='Mana cost correct'>
 											<i
